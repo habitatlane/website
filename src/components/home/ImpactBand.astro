@@ -1,0 +1,78 @@
+---
+/**
+ * ImpactBand — full-bleed stat band.
+ * NOTE: figures are PLACEHOLDERS pulled from site.impact (TODO: verify).
+ */
+import { site } from '../../data/site';
+
+const stats = [
+  { value: `${site.impact.homesBuilt}+`, label: 'homes built' },
+  { value: `${site.impact.repairs}+`, label: 'home repairs completed' },
+  { value: `${new Date().getFullYear() - site.impact.sinceYear}`, label: 'years serving Lane County' },
+];
+---
+
+<section class="impact" aria-labelledby="impact-heading">
+  <div class="container">
+    <h2 id="impact-heading" class="impact-heading">
+      Our impact since {site.impact.sinceYear}
+    </h2>
+    <dl class="impact-grid">
+      {
+        stats.map((s) => (
+          <div class="impact-item">
+            <dt class="impact-value">{s.value}</dt>
+            <dd class="impact-label">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="impact-note">
+      <!-- TODO(verify): confirm impact figures with the affiliate. -->
+      Figures are approximate and being verified.
+    </p>
+  </div>
+</section>
+
+<style>
+  .impact {
+    background: var(--color-brand-accent);
+    color: var(--color-white);
+    padding-block: var(--space-8);
+  }
+  .impact-heading {
+    color: var(--color-white);
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin: 0;
+  }
+  .impact-item {
+    text-align: center;
+  }
+  .impact-value {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--weight-bold);
+    line-height: 1;
+  }
+  .impact-label {
+    margin: var(--space-2) 0 0;
+    font-size: var(--font-size-lg);
+  }
+  .impact-note {
+    text-align: center;
+    margin: var(--space-6) 0 0;
+    font-size: var(--font-size-xs);
+    opacity: 0.85;
+  }
+  @media (max-width: 700px) {
+    .impact-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+  }
+</style>

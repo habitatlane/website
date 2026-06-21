@@ -1,0 +1,106 @@
+---
+/**
+ * Hero — mission-first homepage hero.
+ * Photo is a clearly-marked placeholder (TODO: drop in a real build-site
+ * photo with descriptive alt text). CTAs are real text links, never
+ * images-of-text.
+ */
+import Button from '../Button.astro';
+import { site } from '../../data/site';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">Habitat for Humanity of Central Lane</p>
+      <h1>Everyone deserves a&nbsp;safe, affordable place to call home.</h1>
+      <p class="hero-mission">{site.mission}</p>
+      <div class="hero-ctas">
+        <Button href="/give/donate/" variant="primary" size="lg">Donate</Button>
+        <Button href="/get-involved/volunteer/" variant="secondary" size="lg">Volunteer</Button>
+      </div>
+      <p class="hero-service">Serving {site.serviceArea}</p>
+    </div>
+
+    <!--
+      PHOTO PLACEHOLDER — TODO: replace this block with a real, optimized
+      photo of a Central Lane build/family using <Image>, with descriptive
+      alt text (e.g. "Volunteers and a partner family framing a new home").
+    -->
+    <div class="hero-photo" role="img" aria-label="Placeholder for a Habitat build-site photo">
+      <span class="hero-photo__label">Photo placeholder</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(180deg, var(--color-bg-subtle), var(--color-white));
+    padding-block: var(--space-9);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .hero-copy h1 {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--space-4);
+  }
+  .hero-mission {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    max-width: 38ch;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block: var(--space-5);
+  }
+  .hero-service {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgba(0, 175, 215, 0.08),
+        rgba(0, 175, 215, 0.08) 14px,
+        rgba(196, 214, 0, 0.1) 14px,
+        rgba(196, 214, 0, 0.1) 28px
+      );
+    border: 2px dashed var(--color-border);
+    display: grid;
+    place-items: center;
+  }
+  .hero-photo__label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+    background: var(--color-white);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 880px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .hero-copy h1 {
+      font-size: var(--font-size-3xl);
+    }
+    .hero-photo {
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+/**
+ * Stub/"coming soon" pages for the information architecture.
+ * These keep every nav + footer link resolvable while the real pages are
+ * built later. Real pages (Home, Contact) are separate static routes and
+ * take precedence over this catch-all.
+ *
+ * To promote a stub to a real page, add a dedicated route file at its path
+ * and remove its entry from `stubs` below.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ComingSoon from '../components/ComingSoon.astro';
+
+export function getStaticPaths() {
+  const stubs: { slug: string; title: string; blurb?: string }[] = [
+    { slug: 'about', title: 'Our Story', blurb: 'Habitat for Humanity of Central Lane has been building homes, community, and hope since 1990. A fuller history is on the way.' },
+    { slug: 'about/staff-board', title: 'Staff & Board' },
+    { slug: 'about/financials', title: 'Financials', blurb: 'Annual reports and financial statements will be posted here.' },
+    { slug: 'news', title: 'News', blurb: 'Stories, updates, and announcements from across Central Lane.' },
+    { slug: 'contact', title: 'Contact' },
+
+    { slug: 'get-help', title: 'Get Help' },
+    { slug: 'get-help/homeownership', title: 'Homeownership', blurb: 'Learn about partnering with Habitat to build and buy an affordable home through sweat equity and an affordable mortgage.' },
+    { slug: 'get-help/minor-home-repair', title: 'Minor Home Repair', blurb: 'Critical repairs and accessibility improvements that help neighbors stay safe at home.' },
+
+    { slug: 'get-involved', title: 'Get Involved' },
+    { slug: 'get-involved/volunteer', title: 'Volunteer', blurb: 'Build days, committees, and ReStore shifts — there’s a place for everyone.' },
+    { slug: 'events', title: 'Events', blurb: 'A full calendar of upcoming Habitat events is on the way. See the homepage for what’s next.' },
+
+    { slug: 'give', title: 'Give' },
+    { slug: 'give/donate', title: 'Donate', blurb: 'Your gift builds homes and repairs across Lane County. Online giving is coming soon.' },
+    { slug: 'give/ways-to-give', title: 'Ways to Give' },
+    { slug: 'give/cars-for-homes', title: 'Cars for Homes', blurb: 'Donate a vehicle to support Habitat for Humanity of Central Lane.' },
+    { slug: 'give/in-kind', title: 'In-Kind Gifts', blurb: 'Donate materials, services, and goods to support our mission.' },
+  ];
+
+  return stubs.map((s) => ({ params: { slug: s.slug }, props: s }));
+}
+
+const { title, blurb } = Astro.props;
+---
+
+<BaseLayout title={title} description={blurb}>
+  <ComingSoon title={title} blurb={blurb} />
+</BaseLayout>
