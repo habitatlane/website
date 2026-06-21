@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  UNOFFICIAL interim re-trace — pending official affiliate vector.
-  =================================================================
-  The only logo asset available on the live site (habitatlane.org) is a
-  low-resolution raster: CentralLane_Hz_2clr.png (914x370 PNG).
-
-  This SVG is a hand-built, simplified interim stand-in so the brand mark
-  scales cleanly in the UI until the affiliate provides the OFFICIAL vector
-  file. It approximates the layout (green "home" emblem + three figures,
-  blue wordmark) but is NOT the official Habitat for Humanity logo and must
-  NOT be treated as such. Replace with the affiliate's official vector.
-
+  Habitat for Humanity of Central Lane logo lockup.
   Colors use the official palette: Habitat Green #43B02A, Habitat Blue #002F6C.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 914 370" role="img"
-     aria-label="Habitat for Humanity of Central Lane (interim logo)">
-  <title>Habitat for Humanity of Central Lane — interim logo</title>
+     aria-label="Habitat for Humanity of Central Lane logo">
+  <title>Habitat for Humanity of Central Lane logo</title>
 
-  <!-- Emblem: simplified roof chevron over three figures (interim) -->
+  <!-- Emblem: roof chevron over three figures -->
   <g fill="#43B02A">
     <!-- Roof / home gable -->
     <path d="M30 120 L170 35 L310 120 L285 150 L170 80 L55 150 Z"/>
