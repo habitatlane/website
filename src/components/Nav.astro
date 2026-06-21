@@ -12,7 +12,7 @@ import { Image } from 'astro:assets';
 import { mainNav, donateLink } from '../data/navigation';
 import { site } from '../data/site';
 import Button from './Button.astro';
-import logo from '../assets/logo-central-lane-bw.svg';
+import logo from '../assets/logo-central-lane-oneline-white.svg';
 
 // Mark the current top-level item as active for aria-current.
 const pathname = Astro.url.pathname;
@@ -25,9 +25,9 @@ const isActive = (href: string) =>
     <a href="/" class="brand" aria-label={`${site.name} — home`}>
       <Image
         src={logo}
-        alt={site.name}
-        widths={[280, 460]}
-        sizes="(max-width: 600px) 200px, 230px"
+        alt="Habitat for Humanity of Central Lane"
+        widths={[240, 360]}
+        sizes="(max-width: 600px) 200px, 240px"
         class="brand-logo"
         loading="eager"
       />
@@ -90,8 +90,8 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--color-white);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-invert);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
   .header-inner {
     display: flex;
@@ -106,7 +106,7 @@ const isActive = (href: string) =>
   }
   .brand-logo {
     width: auto;
-    height: 48px;
+    height: 44px;
   }
 
   .primary-nav {
@@ -132,14 +132,14 @@ const isActive = (href: string) =>
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-md);
     font-weight: var(--weight-medium);
-    color: var(--color-brand);
+    color: var(--color-text-invert);
     text-decoration: none;
     white-space: nowrap;
   }
   .nav-link:hover,
   .nav-link[aria-current='page'] {
-    background: var(--color-bg-subtle);
-    color: var(--color-brand);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-invert);
   }
   .caret {
     font-size: 0.7em;
@@ -203,12 +203,12 @@ const isActive = (href: string) =>
     align-items: center;
     gap: var(--space-2);
     background: transparent;
-    border: 1px solid var(--color-border);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: var(--radius-md);
     padding: var(--space-2) var(--space-3);
     font: inherit;
     font-weight: var(--weight-medium);
-    color: var(--color-brand);
+    color: var(--color-text-invert);
     cursor: pointer;
   }
   .menu-toggle__bars,
@@ -243,8 +243,8 @@ const isActive = (href: string) =>
       flex-direction: column;
       align-items: stretch;
       gap: var(--space-3);
-      background: var(--color-white);
-      border-bottom: 1px solid var(--color-border);
+      background: var(--color-bg-invert);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       box-shadow: var(--shadow-md);
       padding: var(--space-4) var(--container-pad) var(--space-6);
       display: none;
