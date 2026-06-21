@@ -6,7 +6,7 @@ raisedAmount: 32500
 ctaLabel: Give to Ramp Up
 ctaUrl: /give/donate/
 imageAlt: A volunteer crew installing a new wooden accessibility ramp at a home.
-featured: false
+featured: true
 draft: false
 ---
 
