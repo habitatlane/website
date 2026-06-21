@@ -4,6 +4,7 @@
  * Receives an already-filtered/sorted array from the homepage.
  */
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../../utils/url';
 
 interface Props {
   events: CollectionEntry<'events'>[];
@@ -23,7 +24,7 @@ const fmtTime = (d: Date) =>
         <p class="eyebrow">Upcoming</p>
         <h2 id="events-heading">Events &amp; ways to show up</h2>
       </div>
-      <a class="events-all" href="/events/">All events →</a>
+      <a class="events-all" href={withBase('/events/')}>All events →</a>
     </div>
 
     {
@@ -51,7 +52,7 @@ const fmtTime = (d: Date) =>
                 </p>
                 <p class="event-summary">{e.data.summary}</p>
                 {e.data.registrationUrl && (
-                  <a class="event-link" href={e.data.registrationUrl} target="_blank" rel="noopener noreferrer">
+                  <a class="event-link" href={withBase(e.data.registrationUrl)} target="_blank" rel="noopener noreferrer">
                     Register / details<span class="sr-only"> for {e.data.title} (opens in a new tab)</span> →
                   </a>
                 )}
