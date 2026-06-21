@@ -1,0 +1,95 @@
+---
+/**
+ * Button — shared CTA/link button. Renders an <a> (links) by default.
+ * Accessible by construction: real text content, not an image-of-text.
+ * Part of the future @habitat/ui kit.
+ */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'md' | 'lg';
+  external?: boolean;
+  class?: string;
+}
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  external = false,
+  class: className = '',
+} = Astro.props;
+
+const rel = external ? 'noopener noreferrer' : undefined;
+const target = external ? '_blank' : undefined;
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  rel={rel}
+  target={target}
+>
+  <slot />
+  {external && <span class="sr-only">(opens in a new tab)</span>}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease,
+      transform 0.05s ease;
+    line-height: 1;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn--md {
+    font-size: var(--font-size-base);
+    padding: 0.7rem 1.4rem;
+  }
+  .btn--lg {
+    font-size: var(--font-size-lg);
+    padding: 0.95rem 1.9rem;
+  }
+
+  .btn--primary {
+    background: var(--color-action);
+    color: var(--color-white);
+  }
+  .btn--primary:hover {
+    background: var(--color-action-hover);
+    color: var(--color-white);
+  }
+
+  .btn--secondary {
+    background: var(--color-action-2);
+    color: var(--color-white);
+  }
+  .btn--secondary:hover {
+    background: var(--color-action-2-hover);
+    color: var(--color-white);
+  }
+
+  .btn--outline {
+    background: transparent;
+    color: var(--color-brand);
+    border-color: currentColor;
+  }
+  .btn--outline:hover {
+    background: var(--color-brand);
+    color: var(--color-white);
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import HowWeHelp from '../components/home/HowWeHelp.astro';
+import ImpactBand from '../components/home/ImpactBand.astro';
+import FeaturedCampaign from '../components/home/FeaturedCampaign.astro';
+import EventsStrip from '../components/home/EventsStrip.astro';
+import Newsletter from '../components/home/Newsletter.astro';
+
+// --- CMS-driven content ---
+// Featured campaign: the first non-draft entry flagged `featured`.
+const campaigns = await getCollection('campaigns', (c) => !c.data.draft);
+const featuredCampaign = campaigns.find((c) => c.data.featured);
+
+// Events: next few upcoming, soonest first.
+const now = new Date();
+const events = (await getCollection('events', (e) => !e.data.draft))
+  .filter((e) => (e.data.end ?? e.data.start) >= now)
+  .sort((a, b) => a.data.start.getTime() - b.data.start.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Home"
+  description="Habitat for Humanity of Central Lane brings people together to build homes, community, and hope across Lane County, Oregon."
+>
+  <Hero />
+  <HowWeHelp />
+  <ImpactBand />
+  <FeaturedCampaign campaign={featuredCampaign} />
+  <EventsStrip events={events} />
+  <Newsletter />
+</BaseLayout>

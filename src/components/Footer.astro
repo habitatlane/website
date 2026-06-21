@@ -1,0 +1,186 @@
+---
+/**
+ * Footer — global site footer with canonical org info, the IA, and legal
+ * identifiers. Cleanly separable for @habitat/ui (depends only on the site
+ * + navigation data modules, tokens, and the logo asset).
+ */
+import { Image } from 'astro:assets';
+import { mainNav } from '../data/navigation';
+import { site, fullAddress } from '../data/site';
+import logo from '../assets/logo-central-lane.png';
+
+const year = new Date().getFullYear();
+// Footer shows the grouped IA (skip plain "Home").
+const columns = mainNav.filter((g) => g.children && g.children.length);
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <Image src={logo} alt={site.name} width={260} class="footer-logo" />
+      <p class="footer-mission">{site.tagline}</p>
+      <address class="footer-contact">
+        <a href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`} target="_blank" rel="noopener noreferrer">
+          {site.address.street}<br />
+          {site.address.city}, {site.address.state} {site.address.zip}
+        </a>
+        <a href={`tel:${site.phone.replace(/\./g, '')}`}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span class="footer-hours">Office hours: {site.officeHours}</span>
+      </address>
+      <p class="footer-service"><strong>Serving:</strong> {site.serviceArea}</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      {
+        columns.map((group) => (
+          <div class="footer-col">
+            <h2 class="footer-heading">
+              {group.href ? <a href={group.href}>{group.label}</a> : group.label}
+            </h2>
+            <ul>
+              {group.children!.map((child) => (
+                <li>
+                  <a
+                    href={child.href}
+                    target={child.external ? '_blank' : undefined}
+                    rel={child.external ? 'noopener noreferrer' : undefined}
+                  >
+                    {child.label}
+                    {child.external && <span class="sr-only"> (opens in a new tab)</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <div class="footer-col">
+        <h2 class="footer-heading"><a href="/contact/">Contact</a></h2>
+        <ul>
+          <li><a href={`tel:${site.phone.replace(/\./g, '')}`}>{site.phone}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li>
+            <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
+              Facebook<span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+          <li>
+            <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram<span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>
+        &copy; {year} {site.name}. A 501(c)(3) nonprofit, founded {site.founded}.
+        EIN {site.ein} · CCB&nbsp;{site.ccb}.
+      </p>
+      <p class="footer-legal">
+        Habitat for Humanity&reg; is a registered service mark owned by Habitat
+        for Humanity International.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-bg-invert);
+    color: var(--color-text-invert);
+    margin-top: var(--space-9);
+  }
+  .site-footer a {
+    color: var(--color-text-invert);
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    color: var(--color-bright-green);
+    text-decoration: underline;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr);
+    gap: var(--space-8);
+    padding-block: var(--space-8);
+  }
+  .footer-logo {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    width: 240px;
+    height: auto;
+  }
+  .footer-mission {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-4);
+  }
+  .footer-contact {
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+  .footer-hours {
+    color: #c7d3e6;
+  }
+  .footer-service {
+    color: #c7d3e6;
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-6);
+  }
+  .footer-heading {
+    font-size: var(--font-size-base);
+    color: var(--color-bright-green);
+    margin-bottom: var(--space-3);
+  }
+  .footer-heading a {
+    color: var(--color-bright-green);
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-col li {
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: var(--font-size-xs);
+    color: #c7d3e6;
+  }
+  .footer-bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+  }
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+  }
+</style>
