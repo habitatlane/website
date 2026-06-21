@@ -7,7 +7,8 @@
 import { Image } from 'astro:assets';
 import { mainNav } from '../data/navigation';
 import { site, fullAddress } from '../data/site';
-import logo from '../assets/logo-central-lane-bw.svg';
+import logo from '../assets/logo-central-lane-lockup-white.svg';
+import { withBase } from '../utils/url';
 
 const year = new Date().getFullYear();
 // Footer shows the grouped IA (skip plain "Home").
@@ -17,7 +18,7 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <Image src={logo} alt={site.name} width={260} class="footer-logo" />
+      <Image src={logo} alt="Habitat for Humanity of Central Lane" width={260} class="footer-logo" />
       <p class="footer-mission">{site.tagline}</p>
       <address class="footer-contact">
         <a href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`} target="_blank" rel="noopener noreferrer">
@@ -36,13 +37,13 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
         columns.map((group) => (
           <div class="footer-col">
             <h2 class="footer-heading">
-              {group.href ? <a href={group.href}>{group.label}</a> : group.label}
+              {group.href ? <a href={withBase(group.href)}>{group.label}</a> : group.label}
             </h2>
             <ul>
               {group.children!.map((child) => (
                 <li>
                   <a
-                    href={child.href}
+                    href={child.external ? child.href : withBase(child.href)}
                     target={child.external ? '_blank' : undefined}
                     rel={child.external ? 'noopener noreferrer' : undefined}
                   >
@@ -56,7 +57,7 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
         ))
       }
       <div class="footer-col">
-        <h2 class="footer-heading"><a href="/contact/">Contact</a></h2>
+        <h2 class="footer-heading"><a href={withBase('/contact/')}>Contact</a></h2>
         <ul>
           <li><a href={`tel:${site.phone.replace(/\./g, '')}`}>{site.phone}</a></li>
           <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
@@ -110,9 +111,6 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
     padding-block: var(--space-8);
   }
   .footer-logo {
-    background: var(--color-white);
-    border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
     width: 240px;
     height: auto;
   }
