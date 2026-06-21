@@ -24,7 +24,7 @@ branch.
 4. Confirm the worker callback route matches the GitHub OAuth callback URL.
 5. Update `public/admin/config.yml` and replace:
 
-   `https://REPLACE-WITH-CLOUDFLARE-AUTH-WORKER.example.com`
+   `https://habitatlane-cms-auth.mattpadams.workers.dev`
 
    with the deployed worker origin, for example:
 
