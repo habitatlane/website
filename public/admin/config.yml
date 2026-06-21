@@ -2,7 +2,7 @@ backend:
   name: github
   repo: habitatlane/website
   branch: main
-  base_url: https://REPLACE-WITH-CLOUDFLARE-AUTH-WORKER.example.com
+  base_url: https://habitatlane-cms-auth.example.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads
