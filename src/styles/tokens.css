@@ -1,0 +1,102 @@
+/*
+ * Habitat for Humanity of Central Lane — Design Tokens
+ * ----------------------------------------------------
+ * Single source of truth for color, type, spacing, and radius.
+ * Colors use the OFFICIAL refreshed Habitat for Humanity palette.
+ *
+ * Keep this file dependency-free and brand-only. It is designed to be
+ * lifted wholesale into the shared @habitat/ui package later, alongside
+ * <Nav> and <Footer>. The matching machine-readable values live in
+ * `src/styles/tokens.ts` — keep the two in sync.
+ */
+
+:root {
+  /* --- Primary --- */
+  --color-bright-blue: #00afd7;
+  --color-bright-green: #c4d600;
+
+  /* --- Neutrals --- */
+  --color-cool-gray: #888b8d; /* Cool Gray 8 */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* --- Secondary --- */
+  --color-habitat-blue: #002f6c;
+  --color-habitat-green: #43b02a;
+  --color-orange: #ff671f;
+  --color-brick: #a4343a;
+
+  /* --- Tertiary (use sparingly) --- */
+  --color-yellow: #ffd100;
+
+  /* --- Semantic roles --- */
+  --color-bg: var(--color-white);
+  --color-bg-subtle: #f4f6f7; /* very light cool-gray tint */
+  --color-bg-invert: var(--color-habitat-blue);
+  --color-text: #1a1d21; /* near-black for body legibility */
+  --color-text-muted: var(--color-cool-gray);
+  --color-text-invert: var(--color-white);
+  --color-brand: var(--color-habitat-blue);
+  --color-brand-accent: var(--color-bright-blue);
+  --color-action: var(--color-habitat-green); /* Donate / primary CTA */
+  --color-action-hover: #389626;
+  --color-action-2: var(--color-bright-blue); /* Volunteer / secondary CTA */
+  --color-action-2-hover: #0094b6;
+  --color-border: #d9dddf;
+  --color-focus: var(--color-orange);
+
+  /* --- Typography ---
+   * Inter  -> clean grotesk for headings + UI (brand-matched stand-in)
+   * Source Serif 4 -> readable serif for long-form body copy
+   * Both are self-hosted via @fontsource (no third-party requests). */
+  --font-sans:
+    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-serif:
+    'Source Serif 4 Variable', 'Source Serif 4', Georgia, Cambria,
+    'Times New Roman', serif;
+
+  --font-size-xs: 0.8125rem; /* 13px */
+  --font-size-sm: 0.9375rem; /* 15px */
+  --font-size-base: 1.0625rem; /* 17px */
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 2.75rem;
+  --font-size-4xl: 3.5rem;
+
+  --line-tight: 1.1;
+  --line-snug: 1.3;
+  --line-normal: 1.65;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* --- Spacing scale (8px base) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* --- Elevation --- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 47, 108, 0.1);
+  --shadow-lg: 0 12px 32px rgba(0, 47, 108, 0.16);
+
+  /* --- Layout --- */
+  --container-max: 1180px;
+  --container-pad: clamp(1rem, 5vw, 3rem);
+}

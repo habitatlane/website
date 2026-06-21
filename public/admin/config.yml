@@ -1,0 +1,99 @@
+backend:
+  name: github
+  repo: habitatlane/website
+  branch: main
+  base_url: https://REPLACE-WITH-CLOUDFLARE-AUTH-WORKER.example.com
+
+media_folder: public/uploads
+public_folder: /uploads
+publish_mode: editorial_workflow
+
+collections:
+  - name: pages
+    label: Pages
+    folder: src/content/pages
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: events
+    label: Events
+    folder: src/content/events
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Start, name: start, widget: datetime }
+      - { label: End, name: end, widget: datetime, required: false }
+      - { label: Location, name: location, widget: string, required: false }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Registration URL, name: registrationUrl, widget: string, required: false }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: campaigns
+    label: Campaigns
+    folder: src/content/campaigns
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Goal Amount, name: goalAmount, widget: number, value_type: int, required: false }
+      - { label: Raised Amount, name: raisedAmount, widget: number, value_type: int, required: false }
+      - { label: CTA Label, name: ctaLabel, widget: string, default: Donate }
+      - { label: CTA URL, name: ctaUrl, widget: string }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: staff
+    label: Staff and Board
+    folder: src/content/staff
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Role, name: role, widget: string }
+      - label: Group
+        name: group
+        widget: select
+        default: staff
+        options:
+          - { label: Staff, value: staff }
+          - { label: Board, value: board }
+      - { label: Photo, name: photo, widget: image, required: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 99 }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Bio, name: body, widget: markdown, required: false }
+
+  - name: news
+    label: News
+    folder: src/content/news
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
