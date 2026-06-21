@@ -13,6 +13,15 @@ branch.
 
    `https://YOUR-WORKER-DOMAIN/callback`
 
+   For the current preview worker, that is:
+
+   `https://habitatlane-cms-auth.example.workers.dev/callback`
+
+   The preview site also includes a static `/callback/` bridge for GitHub
+   Pages. If an existing OAuth app is temporarily pointed at
+   `https://habitatlane.github.io/website/callback`, that page forwards the
+   OAuth response to the worker callback so the popup can finish sign-in.
+
 4. Save the generated client ID and client secret.
 
 ## One-time Cloudflare Worker setup
@@ -21,8 +30,9 @@ branch.
 2. Add the GitHub OAuth client ID and client secret as worker environment
    variables or secrets, following the worker template instructions.
 3. Allow the production site origin: `https://habitatlane.org`.
-4. Confirm the worker callback route matches the GitHub OAuth callback URL.
-5. Update `public/admin/config.yml` and replace:
+4. While using the GitHub Pages preview, also allow `habitatlane.github.io`.
+5. Confirm the worker callback route matches the GitHub OAuth callback URL.
+6. Update `public/admin/config.yml` and replace:
 
    `https://habitatlane-cms-auth.example.workers.dev`
 
