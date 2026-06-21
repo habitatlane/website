@@ -4,8 +4,10 @@ backend:
   branch: main
   base_url: https://REPLACE-WITH-CLOUDFLARE-AUTH-WORKER.example.com
 
+site_url: https://habitatlane.github.io/website
+display_url: https://habitatlane.github.io/website
 media_folder: public/uploads
-public_folder: /uploads
+public_folder: /website/uploads
 publish_mode: editorial_workflow
 
 collections:
