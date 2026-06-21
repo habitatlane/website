@@ -1,0 +1,51 @@
+---
+/**
+ * ComingSoon — shared placeholder body for IA pages that aren't built yet.
+ * Keeps every nav link resolvable (no 404s) while signaling work-in-progress.
+ */
+import Button from './Button.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  blurb?: string;
+}
+const { title, blurb } = Astro.props;
+---
+
+<section class="section coming">
+  <div class="container coming-inner">
+    <p class="eyebrow">Coming soon</p>
+    <h1>{title}</h1>
+    <p class="coming-blurb prose">
+      {blurb ?? `We’re building out this page. In the meantime, reach out and we’ll point you in the right direction.`}
+    </p>
+    <div class="coming-ctas">
+      <Button href="/" variant="outline">← Back to home</Button>
+      <Button href="/contact/" variant="secondary">Contact us</Button>
+    </div>
+    <p class="coming-contact">
+      Questions? Call <a href={`tel:${site.phone.replace(/\./g, '')}`}>{site.phone}</a>
+      or email <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  </div>
+</section>
+
+<style>
+  .coming-inner {
+    max-width: 640px;
+  }
+  .coming-blurb {
+    font-size: var(--font-size-lg);
+  }
+  .coming-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block: var(--space-5);
+  }
+  .coming-contact {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>
