@@ -7,7 +7,7 @@
 import { Image } from 'astro:assets';
 import { mainNav } from '../data/navigation';
 import { site, fullAddress } from '../data/site';
-import logo from '../assets/logo-central-lane-lockup-white.svg';
+import logo from '../assets/logo-central-lane-oneline-white.svg';
 import { withBase } from '../utils/url';
 
 const year = new Date().getFullYear();
@@ -18,7 +18,13 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <Image src={logo} alt="Habitat for Humanity of Central Lane" width={260} class="footer-logo" />
+      <Image
+        src={logo}
+        alt="Habitat for Humanity of Central Lane"
+        width={300}
+        height={60}
+        class="footer-logo"
+      />
       <p class="footer-mission">{site.tagline}</p>
       <address class="footer-contact">
         <a href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`} target="_blank" rel="noopener noreferrer">
@@ -111,7 +117,7 @@ const columns = mainNav.filter((g) => g.children && g.children.length);
     padding-block: var(--space-8);
   }
   .footer-logo {
-    width: 240px;
+    width: min(300px, 100%);
     height: auto;
   }
   .footer-mission {
