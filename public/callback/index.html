@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Habitat Lane CMS Login</title>
+  </head>
+  <body>
+    <p>Completing CMS sign-in...</p>
+    <script>
+      (() => {
+        const authCallbackURL =
+          'https://habitatlane-cms-auth.mattpadams.workers.dev/callback';
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has('code') && params.has('state')) {
+          window.location.replace(`${authCallbackURL}?${params}`);
+          return;
+        }
+
+        window.location.replace('../admin/');
+      })();
+    </script>
+  </body>
+</html>
