@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Habitat for Humanity of Central Lane logo lockup.
+  Black-and-white one-color usage: solid black #000000.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 914 370" role="img"
+     aria-label="Habitat for Humanity of Central Lane logo">
+  <title>Habitat for Humanity of Central Lane logo</title>
+
+  <!-- Emblem: roof chevron over three figures -->
+  <g fill="#000000">
+    <!-- Roof / home gable -->
+    <path d="M30 120 L170 35 L310 120 L285 150 L170 80 L55 150 Z"/>
+    <!-- Left foundation block -->
+    <path d="M40 165 L70 165 L70 250 L40 250 Z"/>
+  </g>
+  <g fill="#000000">
+    <!-- Three simplified figures with raised arms -->
+    <circle cx="120" cy="120" r="20"/>
+    <circle cx="170" cy="100" r="22"/>
+    <circle cx="220" cy="120" r="20"/>
+    <path d="M95 150 q25 -10 50 0 q25 -10 50 0 l18 110 l-22 0 l-12 -70 l-8 70 l-20 0 l-8 -70 l-12 70 l-22 0 Z"/>
+    <!-- Linked arms -->
+    <path d="M70 165 q50 -35 100 -20 q50 -15 100 20 l-8 18 q-45 -28 -92 -16 q-47 -12 -92 16 Z"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g font-family="'Inter', system-ui, sans-serif">
+    <text x="345" y="140" font-size="96" font-weight="700" fill="#000000">Habitat</text>
+    <text x="345" y="235" font-size="78" font-weight="700" fill="#000000">for Humanity</text>
+    <text x="345" y="305" font-size="56" font-weight="600" fill="#000000">of Central Lane</text>
+  </g>
+</svg>
