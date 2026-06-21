@@ -4,6 +4,8 @@
  * Accessible by construction: real text content, not an image-of-text.
  * Part of the future @habitat/ui kit.
  */
+import { withBase } from '../utils/url';
+
 interface Props {
   href: string;
   variant?: 'primary' | 'secondary' | 'outline';
@@ -21,10 +23,11 @@ const {
 
 const rel = external ? 'noopener noreferrer' : undefined;
 const target = external ? '_blank' : undefined;
+const resolvedHref = external ? href : withBase(href);
 ---
 
 <a
-  href={href}
+  href={resolvedHref}
   class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
   rel={rel}
   target={target}
