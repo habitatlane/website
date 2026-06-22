@@ -30,7 +30,7 @@ export const mainNav: NavGroup[] = [
       { label: 'Our Story', href: '/about/' },
       { label: 'Staff & Board', href: '/about/staff-board/', comingSoon: true },
       { label: 'Financials', href: '/about/financials/', comingSoon: true },
-      { label: 'News', href: '/news/', comingSoon: true },
+      { label: 'News', href: '/news/' },
     ],
   },
   {
@@ -48,7 +48,7 @@ export const mainNav: NavGroup[] = [
       { label: 'Volunteer', href: '/get-involved/volunteer/' },
       // ReStore runs on a separate site — external link placeholder.
       { label: 'ReStore', href: 'https://habitatlane.org/restore/', external: true },
-      { label: 'Events', href: '/events/', comingSoon: true },
+      { label: 'Events', href: '/events/' },
     ],
   },
   {
