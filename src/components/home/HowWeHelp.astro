@@ -5,20 +5,6 @@
  */
 import { withBase } from '../../utils/url';
 
-interface ProgramContent {
-  title?: string;
-  href?: string;
-  external?: boolean;
-  body?: string;
-}
-
-interface Props {
-  eyebrow?: string;
-  heading?: string;
-  cardCtaLabel?: string;
-  programs?: ProgramContent[];
-}
-
 const fallbackPrograms = [
   {
     title: 'Homeownership',
@@ -50,41 +36,15 @@ const icons: Record<string, string> = {
   store: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v0a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-5h6v5"/></svg>',
 };
 const icon = (name: string) => icons[name] ?? '';
-const textOr = (value: string | undefined, fallback: string) => value?.trim() || fallback;
-const withFallbackProgram = (program: ProgramContent, index: number) => {
-  const fallback = fallbackPrograms[index] ?? fallbackPrograms[0];
-
-  return {
-    title: textOr(program.title, fallback.title),
-    href: textOr(program.href, fallback.href),
-    external: program.external ?? fallback.external,
-    body: textOr(program.body, fallback.body),
-    icon: fallback.icon,
-  };
-};
-
-const {
-  eyebrow,
-  heading,
-  cardCtaLabel,
-  programs: cmsPrograms = [],
-} = Astro.props;
-
-const content = {
-  eyebrow: textOr(eyebrow, 'How we help'),
-  heading: textOr(heading, 'Three ways we build community'),
-  cardCtaLabel: textOr(cardCtaLabel, 'Learn more'),
-  programs: cmsPrograms.length ? cmsPrograms.map(withFallbackProgram) : fallbackPrograms,
-};
 ---
 
 <section class="section how" aria-labelledby="how-heading">
   <div class="container">
-    <p class="eyebrow">{content.eyebrow}</p>
-    <h2 id="how-heading">{content.heading}</h2>
+    <p class="eyebrow">How we help</p>
+    <h2 id="how-heading">Three ways we build community</h2>
     <div class="how-grid">
       {
-        content.programs.map((p) => (
+        fallbackPrograms.map((p) => (
           <a
             class="card"
             href={p.external ? p.href : withBase(p.href)}
@@ -97,7 +57,7 @@ const content = {
               {p.external && <span class="sr-only"> (opens in a new tab)</span>}
             </h3>
             <p>{p.body}</p>
-            <span class="card-more">{content.cardCtaLabel} →</span>
+            <span class="card-more">Learn more -></span>
           </a>
         ))
       }

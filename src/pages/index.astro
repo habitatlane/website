@@ -7,7 +7,13 @@ type HomeSection = CollectionEntry<'home'>['data']['sections'][number];
 
 const defaultSections = [
   { type: 'hero' },
-  { type: 'howWeHelp', programs: [] },
+  {
+    type: 'prose',
+    eyebrow: 'Our mission',
+    heading: 'Building homes, community, and hope across Lane County',
+    body: 'Habitat for Humanity of Central Lane brings people together to build, repair, and advocate for affordable homes. We work alongside neighbors, volunteers, donors, and community partners because stable housing changes what is possible for families.',
+  },
+  { type: 'howWeHelp' },
   { type: 'impactBand', stats: [] },
   { type: 'featuredCampaign' },
   { type: 'eventsStrip' },

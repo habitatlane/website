@@ -1,0 +1,34 @@
+---
+import { renderMarkdown } from '../../utils/markdown';
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+}
+
+const { eyebrow, heading, body = '' } = Astro.props;
+const html = await renderMarkdown(body);
+---
+
+<section class="section prose-section">
+  <div class="container prose-section-inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    {heading && <h2>{heading}</h2>}
+    {html && <div class="prose prose-section-body" set:html={html} />}
+  </div>
+</section>
+
+<style>
+  .prose-section-inner {
+    max-width: 780px;
+  }
+  .prose-section-body {
+    margin-top: var(--space-3);
+  }
+  .prose-section-body :global(p:last-child),
+  .prose-section-body :global(ul:last-child),
+  .prose-section-body :global(ol:last-child) {
+    margin-bottom: 0;
+  }
+</style>
