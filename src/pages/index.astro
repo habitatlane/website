@@ -1,32 +1,14 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HomeSections from '../components/HomeSections.astro';
-
-type HomeSection = CollectionEntry<'home'>['data']['sections'][number];
-
-const defaultSections = [
-  { type: 'hero' },
-  {
-    type: 'prose',
-    eyebrow: 'Our mission',
-    heading: 'Building homes, community, and hope across Lane County',
-    body: 'Habitat for Humanity of Central Lane brings people together to build, repair, and advocate for affordable homes. We work alongside neighbors, volunteers, donors, and community partners because stable housing changes what is possible for families.',
-  },
-  { type: 'programsList' },
-  { type: 'impactBand', stats: [] },
-  {
-    type: 'ctaBand',
-    eyebrow: 'Get involved',
-    heading: 'Help build a stronger Lane County',
-    body: 'Volunteer, donate, or share Habitat with someone who needs a safe, affordable place to live.',
-    primaryCta: { label: 'Volunteer', url: '/get-involved/volunteer/', external: false },
-    secondaryCta: { label: 'Donate', url: '/give/donate/', external: false },
-  },
-  { type: 'featuredCampaign' },
-  { type: 'eventsStrip' },
-  { type: 'newsletter' },
-] satisfies HomeSection[];
+import Hero from '../components/home/Hero.astro';
+import ProseSection from '../components/home/ProseSection.astro';
+import HowWeHelp from '../components/home/HowWeHelp.astro';
+import ImpactBand from '../components/home/ImpactBand.astro';
+import CtaBand from '../components/home/CtaBand.astro';
+import FeaturedCampaign from '../components/home/FeaturedCampaign.astro';
+import EventsStrip from '../components/home/EventsStrip.astro';
+import Newsletter from '../components/home/Newsletter.astro';
 
 // --- CMS-driven content ---
 // Featured campaign: the first non-draft entry flagged `featured`.
@@ -39,15 +21,28 @@ const events = (await getCollection('events', (e) => !e.data.draft))
   .filter((e) => (e.data.end ?? e.data.start) >= now)
   .sort((a, b) => a.data.start.getTime() - b.data.start.getTime())
   .slice(0, 3);
-
-const homeEntries = await getCollection('home');
-const home = homeEntries.find((entry) => entry.id === 'index') ?? homeEntries[0];
-const sections = home?.data.sections.length ? home.data.sections : defaultSections;
 ---
 
 <BaseLayout
   title="Home"
   description="Habitat for Humanity of Central Lane brings people together to build homes, community, and hope across Lane County, Oregon."
 >
-  <HomeSections sections={sections} featuredCampaign={featuredCampaign} events={events} />
+  <Hero />
+  <ProseSection
+    eyebrow="Our mission"
+    heading="Building homes, community, and hope across Lane County"
+    body="Habitat for Humanity of Central Lane brings people together to build, repair, and advocate for affordable homes. We work alongside neighbors, volunteers, donors, and community partners because stable housing changes what is possible for families."
+  />
+  <HowWeHelp />
+  <ImpactBand stats={[]} />
+  <CtaBand
+    eyebrow="Get involved"
+    heading="Help build a stronger Lane County"
+    body="Volunteer, donate, or share Habitat with someone who needs a safe, affordable place to live."
+    primaryCta={{ label: 'Volunteer', url: '/get-involved/volunteer/', external: false }}
+    secondaryCta={{ label: 'Donate', url: '/give/donate/', external: false }}
+  />
+  <FeaturedCampaign campaign={featuredCampaign} />
+  <EventsStrip events={events} />
+  <Newsletter />
 </BaseLayout>
