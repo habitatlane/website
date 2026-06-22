@@ -126,6 +126,15 @@ const isActive = (href: string) =>
   .nav-item {
     position: relative;
   }
+  .has-children::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    min-width: 220px;
+    height: 4px;
+  }
   .nav-link {
     display: inline-flex;
     align-items: center;
