@@ -48,6 +48,23 @@ const campaigns = defineCollection({
   }),
 });
 
+const homeSection = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('hero') }),
+  z.object({ type: z.literal('howWeHelp') }),
+  z.object({ type: z.literal('impactBand') }),
+  z.object({ type: z.literal('featuredCampaign') }),
+  z.object({ type: z.literal('eventsStrip') }),
+  z.object({ type: z.literal('newsletter') }),
+]);
+
+const home = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/home' }),
+  schema: z.object({
+    title: z.string().default('Home'),
+    sections: z.array(homeSection).default([]),
+  }),
+});
+
 const staff = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/staff' }),
   schema: z.object({
@@ -72,4 +89,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { pages, events, campaigns, staff, news };
+export const collections = { pages, events, campaigns, home, staff, news };
