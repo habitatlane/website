@@ -1,0 +1,134 @@
+---
+import { getCollection, render, type CollectionEntry, type RenderResult } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../utils/url';
+
+type NewsEntry = CollectionEntry<'news'>;
+
+export async function getStaticPaths() {
+  const news = await getCollection('news', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return news.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props as { item: NewsEntry };
+const { Content } = await render(item) as RenderResult;
+const fmtDate = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+---
+
+<BaseLayout
+  title={item.data.title}
+  description={item.data.excerpt}
+  ogImage={item.data.image}
+>
+  <article class="section news-detail">
+    <div class="container news-detail-inner">
+      <a href={withBase('/news/')} class="back-link">News</a>
+      <header class="news-header">
+        <p class="eyebrow">News</p>
+        <h1>{item.data.title}</h1>
+        <p class="news-date">
+          <time datetime={item.data.date.toISOString()}>{fmtDate(item.data.date)}</time>
+        </p>
+        <p class="news-excerpt prose">{item.data.excerpt}</p>
+      </header>
+
+      {
+        item.data.image && (
+          <img
+            src={withBase(item.data.image)}
+            alt={item.data.imageAlt ?? ''}
+            class="news-image"
+            loading="eager"
+          />
+        )
+      }
+
+      <div class="news-body prose">
+        <Content />
+      </div>
+
+      <div class="news-actions">
+        <Button href="/news/" variant="outline">All news</Button>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .news-detail-inner {
+    max-width: 860px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin-bottom: var(--space-5);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .back-link::before {
+    content: '<';
+    margin-right: var(--space-2);
+  }
+
+  .news-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .news-date {
+    margin-bottom: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .news-excerpt {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .news-image {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-7);
+  }
+
+  .news-body :global(h2),
+  .news-body :global(h3) {
+    margin-top: var(--space-7);
+  }
+
+  .news-body :global(ul),
+  .news-body :global(ol) {
+    margin-block: 0 var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .news-body :global(li + li) {
+    margin-top: var(--space-2);
+  }
+
+  .news-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+  }
+</style>

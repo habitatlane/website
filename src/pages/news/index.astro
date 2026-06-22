@@ -1,0 +1,152 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../utils/url';
+
+const news = (await getCollection('news', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+})).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmtDate = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+---
+
+<BaseLayout
+  title="News"
+  description="Stories, updates, and announcements from Habitat for Humanity of Central Lane."
+>
+  <section class="section news-hero">
+    <div class="container news-hero-inner">
+      <p class="eyebrow">News</p>
+      <h1>Stories and updates from Central Lane.</h1>
+      <p class="news-intro prose">
+        Follow the people, projects, and community partnerships behind Habitat
+        homes and repairs across Lane County.
+      </p>
+    </div>
+  </section>
+
+  <section class="section news-list-section" aria-labelledby="news-list-heading">
+    <div class="container">
+      <h2 id="news-list-heading">Latest News</h2>
+      {
+        news.length === 0 ? (
+          <p class="news-empty">No news posts are published yet. Check back soon.</p>
+        ) : (
+          <div class="news-grid">
+            {news.map((item) => (
+              <article class="news-card">
+                {item.data.image && (
+                  <img
+                    src={withBase(item.data.image)}
+                    alt={item.data.imageAlt ?? ''}
+                    class="news-card-image"
+                    loading="lazy"
+                  />
+                )}
+                <div class="news-card-body">
+                  <p class="news-date">
+                    <time datetime={item.data.date.toISOString()}>{fmtDate(item.data.date)}</time>
+                  </p>
+                  <h3>
+                    <a href={withBase(`/news/${item.id}/`)}>{item.data.title}</a>
+                  </h3>
+                  <p>{item.data.excerpt}</p>
+                  <Button href={`/news/${item.id}/`} variant="outline">Read story</Button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-hero {
+    background: var(--color-bg-subtle);
+  }
+
+  .news-hero-inner {
+    max-width: 820px;
+  }
+
+  .news-intro {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .news-list-section {
+    padding-top: var(--space-7);
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  .news-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .news-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .news-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-5);
+  }
+
+  .news-date {
+    margin-bottom: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  .news-card h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .news-card h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .news-card h3 a:hover {
+    color: var(--color-brand-accent);
+  }
+
+  .news-card-body > p:not(.news-date) {
+    flex: 1;
+    color: var(--color-text-muted);
+  }
+
+  .news-empty {
+    color: var(--color-text-muted);
+  }
+</style>
