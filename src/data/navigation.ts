@@ -37,15 +37,15 @@ export const mainNav: NavGroup[] = [
     label: 'Get Help',
     href: '/get-help/',
     children: [
-      { label: 'Homeownership', href: '/get-help/homeownership/', comingSoon: true },
-      { label: 'Minor Home Repair', href: '/get-help/minor-home-repair/', comingSoon: true },
+      { label: 'Homeownership', href: '/get-help/homeownership/' },
+      { label: 'Minor Home Repair', href: '/get-help/minor-home-repair/' },
     ],
   },
   {
     label: 'Get Involved',
     href: '/get-involved/',
     children: [
-      { label: 'Volunteer', href: '/get-involved/volunteer/', comingSoon: true },
+      { label: 'Volunteer', href: '/get-involved/volunteer/' },
       // ReStore runs on a separate site — external link placeholder.
       { label: 'ReStore', href: 'https://habitatlane.org/restore/', external: true },
       { label: 'Events', href: '/events/', comingSoon: true },
@@ -55,14 +55,14 @@ export const mainNav: NavGroup[] = [
     label: 'Give',
     href: '/give/',
     children: [
-      { label: 'Donate', href: '/give/donate/', comingSoon: true },
-      { label: 'Ways to Give', href: '/give/ways-to-give/', comingSoon: true },
-      { label: 'Cars for Homes', href: '/give/cars-for-homes/', comingSoon: true },
-      { label: 'In-Kind', href: '/give/in-kind/', comingSoon: true },
+      { label: 'Donate', href: '/give/donate/' },
+      { label: 'Ways to Give', href: '/give/ways-to-give/' },
+      { label: 'Cars for Homes', href: '/give/cars-for-homes/' },
+      { label: 'In-Kind', href: '/give/in-kind/' },
     ],
   },
   { label: 'Contact', href: '/contact/' },
 ];
 
 /** The persistent primary call-to-action shown in the header. */
-export const donateLink: NavLink = { label: 'Donate', href: '/give/donate/', comingSoon: true };
+export const donateLink: NavLink = { label: 'Donate', href: '/give/donate/' };
