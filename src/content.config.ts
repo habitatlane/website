@@ -48,80 +48,6 @@ const campaigns = defineCollection({
   }),
 });
 
-const cta = z.object({
-  label: z.string().optional(),
-  url: z.string().optional(),
-  external: z.boolean().default(false),
-});
-
-const imageFields = {
-  image: z.string().optional(),
-  imageAlt: z.string().optional(),
-};
-
-const heroSection = z.object({
-  type: z.literal('hero'),
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  body: z.string().optional(),
-  primaryCta: cta.optional(),
-  secondaryCta: cta.optional(),
-  serviceText: z.string().optional(),
-  ...imageFields,
-});
-
-const proseSection = z.object({
-  type: z.literal('prose'),
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  body: z.string().default(''),
-});
-
-const splitContentSection = z.object({
-  type: z.literal('splitContent'),
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  body: z.string().default(''),
-  cta: cta.optional(),
-  imagePosition: z.enum(['left', 'right']).default('right'),
-  ...imageFields,
-});
-
-const ctaBandSection = z.object({
-  type: z.literal('ctaBand'),
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  body: z.string().default(''),
-  primaryCta: cta.optional(),
-  secondaryCta: cta.optional(),
-});
-
-const impactBandSection = z.object({
-  type: z.literal('impactBand'),
-  heading: z.string().optional(),
-  stats: z
-    .array(
-      z.object({
-        value: z.string().optional(),
-        label: z.string().optional(),
-      }),
-    )
-    .default([]),
-  note: z.string().optional(),
-});
-
-const newsletterSection = z.object({
-  type: z.literal('newsletter'),
-  eyebrow: z.string().optional(),
-  heading: z.string().optional(),
-  body: z.string().optional(),
-  formAction: z.string().optional(),
-  emailLabel: z.string().optional(),
-  emailPlaceholder: z.string().optional(),
-  buttonLabel: z.string().optional(),
-  note: z.string().optional(),
-});
-
 const programs = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/programs' }),
   schema: z.object({
@@ -131,27 +57,6 @@ const programs = defineCollection({
     image: z.string().optional(),
     order: z.number().default(99),
     draft: z.boolean().default(false),
-  }),
-});
-
-const homeSection = z.discriminatedUnion('type', [
-  heroSection,
-  proseSection,
-  splitContentSection,
-  ctaBandSection,
-  z.object({ type: z.literal('programsList') }),
-  z.object({ type: z.literal('howWeHelp') }),
-  impactBandSection,
-  z.object({ type: z.literal('featuredCampaign') }),
-  z.object({ type: z.literal('eventsStrip') }),
-  newsletterSection,
-]);
-
-const home = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/home' }),
-  schema: z.object({
-    title: z.string().default('Home'),
-    sections: z.array(homeSection).default([]),
   }),
 });
 
@@ -179,4 +84,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { pages, events, campaigns, programs, home, staff, news };
+export const collections = { pages, events, campaigns, programs, staff, news };
