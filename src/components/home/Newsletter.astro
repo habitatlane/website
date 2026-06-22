@@ -4,6 +4,8 @@
  * TODO: wire `action` to the real provider (Mailchimp/Constant Contact/etc.)
  * endpoint. Until then the form is inert (action="#") and clearly labeled.
  */
+import { renderMarkdown } from '../../utils/markdown';
+
 interface Props {
   eyebrow?: string;
   heading?: string;
@@ -40,6 +42,8 @@ const content = {
   buttonLabel: textOr(buttonLabel, 'Sign up'),
   note: textOr(note, 'Placeholder form - newsletter provider not yet connected.'),
 };
+
+const bodyHtml = await renderMarkdown(content.body);
 ---
 
 <section class="section newsletter" aria-labelledby="newsletter-heading">
@@ -47,7 +51,7 @@ const content = {
     <div class="newsletter-copy">
       <p class="eyebrow">{content.eyebrow}</p>
       <h2 id="newsletter-heading">{content.heading}</h2>
-      <p>{content.body}</p>
+      <div class="prose newsletter-body" set:html={bodyHtml} />
     </div>
 
     <!-- TODO: replace action="#" with the real newsletter form endpoint. -->
@@ -84,6 +88,9 @@ const content = {
   .newsletter-form {
     display: grid;
     gap: var(--space-3);
+  }
+  .newsletter-body :global(p:last-child) {
+    margin-bottom: 0;
   }
   .field {
     display: grid;

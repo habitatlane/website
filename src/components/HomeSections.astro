@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import Hero from './home/Hero.astro';
 import ProseSection from './home/ProseSection.astro';
 import SplitContent from './home/SplitContent.astro';
+import CtaBand from './home/CtaBand.astro';
 import HowWeHelp from './home/HowWeHelp.astro';
 import ImpactBand from './home/ImpactBand.astro';
 import FeaturedCampaign from './home/FeaturedCampaign.astro';
@@ -26,6 +27,8 @@ const { sections, featuredCampaign, events } = Astro.props;
       {section.type === 'hero' && <Hero {...section} />}
       {section.type === 'prose' && <ProseSection {...section} />}
       {section.type === 'splitContent' && <SplitContent {...section} />}
+      {section.type === 'ctaBand' && <CtaBand {...section} />}
+      {section.type === 'programsList' && <HowWeHelp />}
       {section.type === 'howWeHelp' && <HowWeHelp />}
       {section.type === 'impactBand' && <ImpactBand {...section} />}
       {section.type === 'featuredCampaign' && <FeaturedCampaign campaign={featuredCampaign} />}
