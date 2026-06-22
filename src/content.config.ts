@@ -40,6 +40,7 @@ const campaigns = defineCollection({
     raisedAmount: z.number().optional(),
     ctaLabel: z.string().default('Donate'),
     ctaUrl: z.string(),
+    program: z.string().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
     // Exactly one campaign should be featured on the homepage at a time.
