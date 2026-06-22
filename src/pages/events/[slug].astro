@@ -1,0 +1,194 @@
+---
+import { getCollection, render, type CollectionEntry, type RenderResult } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../utils/url';
+
+type EventEntry = CollectionEntry<'events'>;
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return events.map((event) => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props as { event: EventEntry };
+const { Content } = await render(event) as RenderResult;
+const fmtDate = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+const fmtTime = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date);
+const fmtEventDate = (start: Date, end?: Date) => {
+  const startText = `${fmtDate(start)} at ${fmtTime(start)}`;
+  return end ? `${startText} - ${fmtTime(end)}` : startText;
+};
+const registrationHref = event.data.registrationUrl
+  ? withBase(event.data.registrationUrl)
+  : undefined;
+---
+
+<BaseLayout
+  title={event.data.title}
+  description={event.data.summary}
+  ogImage={event.data.image}
+>
+  <article class="section event-detail">
+    <div class="container event-detail-inner">
+      <a href={withBase('/events/')} class="back-link">Events</a>
+      <header class="event-header">
+        <p class="eyebrow">Event</p>
+        <h1>{event.data.title}</h1>
+        <p class="event-summary prose">{event.data.summary}</p>
+      </header>
+
+      {
+        event.data.image && (
+          <img
+            src={withBase(event.data.image)}
+            alt=""
+            class="event-image"
+            loading="eager"
+          />
+        )
+      }
+
+      <dl class="event-info">
+        <div>
+          <dt>Date</dt>
+          <dd>
+            <time datetime={event.data.start.toISOString()}>
+              {fmtEventDate(event.data.start, event.data.end)}
+            </time>
+          </dd>
+        </div>
+        {
+          event.data.location && (
+            <div>
+              <dt>Location</dt>
+              <dd>{event.data.location}</dd>
+            </div>
+          )
+        }
+      </dl>
+
+      <div class="event-body prose">
+        <Content />
+      </div>
+
+      <div class="event-actions">
+        {
+          registrationHref && (
+            <Button
+              href={registrationHref}
+              variant="secondary"
+              external={registrationHref.startsWith('http')}
+            >
+              Register / details
+            </Button>
+          )
+        }
+        <Button href="/events/" variant="outline">All events</Button>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .event-detail-inner {
+    max-width: 860px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin-bottom: var(--space-5);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .back-link::before {
+    content: '<';
+    margin-right: var(--space-2);
+  }
+
+  .event-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .event-summary {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .event-image {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+  }
+
+  .event-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: var(--space-4);
+    margin: 0 0 var(--space-7);
+  }
+
+  .event-info div {
+    padding: var(--space-4);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .event-info dt {
+    margin-bottom: var(--space-1);
+    color: var(--color-brand-accent);
+    font-size: var(--font-size-sm);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .event-info dd {
+    margin: 0;
+    color: var(--color-brand);
+    font-weight: var(--weight-semibold);
+  }
+
+  .event-body :global(h2),
+  .event-body :global(h3) {
+    margin-top: var(--space-7);
+  }
+
+  .event-body :global(ul),
+  .event-body :global(ol) {
+    margin-block: 0 var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .event-body :global(li + li) {
+    margin-top: var(--space-2);
+  }
+
+  .event-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+  }
+</style>
