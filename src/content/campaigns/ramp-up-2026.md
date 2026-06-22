@@ -2,7 +2,7 @@
 title: Ramp Up 2026
 summary: Help launch Habitat's new Ramp program by funding wheelchair ramps and accessibility ramps for neighbors who need safer access at home.
 goalAmount: 50000
-raisedAmount: 32500
+raisedAmount: 0
 ctaLabel: Give to Ramp Up
 ctaUrl: /give/donate/
 program: ramp
