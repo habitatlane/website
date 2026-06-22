@@ -1,0 +1,118 @@
+---
+import { getCollection, render, type CollectionEntry, type RenderResult } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../utils/url';
+
+type ProgramEntry = CollectionEntry<'programs'>;
+
+export async function getStaticPaths() {
+  const programs = await getCollection('programs', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return programs.map((program) => ({
+    params: { slug: program.data.slug },
+    props: { program },
+  }));
+}
+
+const { program } = Astro.props as { program: ProgramEntry };
+const { Content } = await render(program) as RenderResult;
+---
+
+<BaseLayout
+  title={program.data.title}
+  description={program.data.summary}
+  ogImage={program.data.image}
+>
+  <article class="section program-detail">
+    <div class="container program-detail-inner">
+      <a href={withBase('/programs/')} class="back-link">Programs</a>
+      <header class="program-header">
+        <p class="eyebrow">Program</p>
+        <h1>{program.data.title}</h1>
+        <p class="program-summary prose">{program.data.summary}</p>
+      </header>
+
+      {
+        program.data.image && (
+          <img
+            src={withBase(program.data.image)}
+            alt=""
+            class="program-image"
+            loading="eager"
+          />
+        )
+      }
+
+      <div class="program-body prose">
+        <Content />
+      </div>
+
+      <div class="program-actions">
+        <Button href="/contact/" variant="secondary">Contact us</Button>
+        <Button href="/programs/" variant="outline">All programs</Button>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .program-detail-inner {
+    max-width: 860px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin-bottom: var(--space-5);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .back-link::before {
+    content: '<';
+    margin-right: var(--space-2);
+  }
+
+  .program-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .program-summary {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .program-image {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-7);
+  }
+
+  .program-body :global(h2),
+  .program-body :global(h3) {
+    margin-top: var(--space-7);
+  }
+
+  .program-body :global(ul),
+  .program-body :global(ol) {
+    margin-block: 0 var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .program-body :global(li + li) {
+    margin-top: var(--space-2);
+  }
+
+  .program-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+  }
+</style>
