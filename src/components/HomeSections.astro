@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Hero from './home/Hero.astro';
+import HowWeHelp from './home/HowWeHelp.astro';
+import ImpactBand from './home/ImpactBand.astro';
+import FeaturedCampaign from './home/FeaturedCampaign.astro';
+import EventsStrip from './home/EventsStrip.astro';
+import Newsletter from './home/Newsletter.astro';
+
+type HomeSection =
+  | { type: 'hero' }
+  | { type: 'howWeHelp' }
+  | { type: 'impactBand' }
+  | { type: 'featuredCampaign' }
+  | { type: 'eventsStrip' }
+  | { type: 'newsletter' };
+
+interface Props {
+  sections: readonly HomeSection[];
+  featuredCampaign?: CollectionEntry<'campaigns'>;
+  events: CollectionEntry<'events'>[];
+}
+
+const { sections, featuredCampaign, events } = Astro.props;
+---
+
+{
+  sections.map((section) => (
+    <>
+      {section.type === 'hero' && <Hero />}
+      {section.type === 'howWeHelp' && <HowWeHelp />}
+      {section.type === 'impactBand' && <ImpactBand />}
+      {section.type === 'featuredCampaign' && <FeaturedCampaign campaign={featuredCampaign} />}
+      {section.type === 'eventsStrip' && <EventsStrip events={events} />}
+      {section.type === 'newsletter' && <Newsletter />}
+    </>
+  ))
+}
