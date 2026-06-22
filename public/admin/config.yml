@@ -21,7 +21,9 @@ collections:
             name: sections
             widget: list
             typeKey: type
-            summary: "{{type}}"
+            collapsed: true
+            label_singular: Section
+            summary: "{{type}} — {{fields.heading}}"
             types:
               - label: Hero
                 name: hero
@@ -29,7 +31,7 @@ collections:
                 fields:
                   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                   - { label: Heading, name: heading, widget: string, required: false }
-                  - { label: Body, name: body, widget: text, required: false }
+                  - { label: Body, name: body, widget: richtext, required: false, minimal: true }
                   - label: Primary CTA
                     name: primaryCta
                     widget: object
@@ -49,8 +51,8 @@ collections:
                   - { label: Service Text, name: serviceText, widget: string, required: false }
                   - { label: Image, name: image, widget: image, required: false }
                   - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
-              - label: How We Help
-                name: howWeHelp
+              - label: Programs List
+                name: programsList
                 widget: object
                 fields: []
               - label: Prose Section
@@ -59,14 +61,14 @@ collections:
                 fields:
                   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                   - { label: Heading, name: heading, widget: string, required: false }
-                  - { label: Body, name: body, widget: markdown, required: false }
+                  - { label: Body, name: body, widget: richtext, required: false }
               - label: Split Content
                 name: splitContent
                 widget: object
                 fields:
                   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                   - { label: Heading, name: heading, widget: string, required: false }
-                  - { label: Body, name: body, widget: markdown, required: false }
+                  - { label: Body, name: body, widget: richtext, required: false }
                   - label: CTA
                     name: cta
                     widget: object
@@ -84,7 +86,30 @@ collections:
                       - { label: Left, value: left }
                   - { label: Image, name: image, widget: image, required: false }
                   - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
-              - label: Impact Band
+              - label: CTA Band
+                name: ctaBand
+                widget: object
+                fields:
+                  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Body, name: body, widget: richtext, required: false, minimal: true }
+                  - label: Primary CTA
+                    name: primaryCta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string, required: false }
+                      - { label: URL, name: url, widget: string, required: false }
+                      - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
+                  - label: Secondary CTA
+                    name: secondaryCta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string, required: false }
+                      - { label: URL, name: url, widget: string, required: false }
+                      - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
+              - label: Impact Stats
                 name: impactBand
                 widget: object
                 fields:
@@ -112,7 +137,7 @@ collections:
                 fields:
                   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                   - { label: Heading, name: heading, widget: string, required: false }
-                  - { label: Body, name: body, widget: text, required: false }
+                  - { label: Body, name: body, widget: richtext, required: false, minimal: true }
                   - { label: Form Action URL, name: formAction, widget: string, required: false }
                   - { label: Email Label, name: emailLabel, widget: string, required: false }
                   - { label: Email Placeholder, name: emailPlaceholder, widget: string, required: false }
@@ -130,7 +155,7 @@ collections:
       - { label: Title, name: title, widget: string }
       - { label: Description, name: description, widget: text, required: false }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: richtext }
 
   - name: events
     label: Events
@@ -148,7 +173,7 @@ collections:
       - { label: Registration URL, name: registrationUrl, widget: string, required: false }
       - { label: Image, name: image, widget: image, required: false }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: richtext }
 
   - name: campaigns
     label: Campaigns
@@ -168,7 +193,7 @@ collections:
       - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
       - { label: Featured, name: featured, widget: boolean, default: false }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: richtext }
 
   - name: programs
     label: Programs
@@ -184,7 +209,7 @@ collections:
       - { label: Image, name: image, widget: image, required: false }
       - { label: Order, name: order, widget: number, value_type: int, default: 99 }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: richtext }
 
   - name: staff
     label: Staff and Board
@@ -206,7 +231,7 @@ collections:
       - { label: Photo, name: photo, widget: image, required: false }
       - { label: Order, name: order, widget: number, value_type: int, default: 99 }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Bio, name: body, widget: markdown, required: false }
+      - { label: Bio, name: body, widget: richtext, required: false }
 
   - name: news
     label: News
@@ -222,4 +247,4 @@ collections:
       - { label: Image, name: image, widget: image, required: false }
       - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
       - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: richtext }
