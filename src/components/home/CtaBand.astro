@@ -1,0 +1,91 @@
+---
+import Button from '../Button.astro';
+import { renderMarkdown } from '../../utils/markdown';
+
+interface CtaContent {
+  label?: string;
+  url?: string;
+  external?: boolean;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  primaryCta?: CtaContent;
+  secondaryCta?: CtaContent;
+}
+
+const textOr = (value: string | undefined, fallback = '') => value?.trim() || fallback;
+const { eyebrow, heading, body = '', primaryCta, secondaryCta } = Astro.props;
+const html = await renderMarkdown(body);
+const primaryLabel = textOr(primaryCta?.label);
+const primaryUrl = textOr(primaryCta?.url);
+const secondaryLabel = textOr(secondaryCta?.label);
+const secondaryUrl = textOr(secondaryCta?.url);
+---
+
+<section class="section cta-band">
+  <div class="container cta-band-inner">
+    <div class="cta-band-copy">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      {heading && <h2>{heading}</h2>}
+      {html && <div class="prose cta-band-body" set:html={html} />}
+    </div>
+    <div class="cta-band-actions">
+      {
+        primaryLabel && primaryUrl && (
+          <Button href={primaryUrl} external={primaryCta?.external ?? false} variant="primary">
+            {primaryLabel}
+          </Button>
+        )
+      }
+      {
+        secondaryLabel && secondaryUrl && (
+          <Button href={secondaryUrl} external={secondaryCta?.external ?? false} variant="secondary">
+            {secondaryLabel}
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    background: var(--color-brand);
+    color: var(--color-white);
+  }
+  .cta-band :global(.eyebrow),
+  .cta-band h2,
+  .cta-band-body {
+    color: var(--color-white);
+  }
+  .cta-band-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .cta-band-copy {
+    max-width: 760px;
+  }
+  .cta-band-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .cta-band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 780px) {
+    .cta-band-inner {
+      grid-template-columns: 1fr;
+    }
+    .cta-band-actions {
+      justify-content: flex-start;
+    }
+  }
+</style>

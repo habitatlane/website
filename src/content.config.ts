@@ -87,6 +87,15 @@ const splitContentSection = z.object({
   ...imageFields,
 });
 
+const ctaBandSection = z.object({
+  type: z.literal('ctaBand'),
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  body: z.string().default(''),
+  primaryCta: cta.optional(),
+  secondaryCta: cta.optional(),
+});
+
 const impactBandSection = z.object({
   type: z.literal('impactBand'),
   heading: z.string().optional(),
@@ -129,6 +138,8 @@ const homeSection = z.discriminatedUnion('type', [
   heroSection,
   proseSection,
   splitContentSection,
+  ctaBandSection,
+  z.object({ type: z.literal('programsList') }),
   z.object({ type: z.literal('howWeHelp') }),
   impactBandSection,
   z.object({ type: z.literal('featuredCampaign') }),
