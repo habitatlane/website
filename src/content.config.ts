@@ -109,6 +109,18 @@ const newsletterSection = z.object({
   note: z.string().optional(),
 });
 
+const programs = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/programs' }),
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    summary: z.string(),
+    image: z.string().optional(),
+    order: z.number().default(99),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const homeSection = z.discriminatedUnion('type', [
   heroSection,
   howWeHelpSection,
@@ -150,4 +162,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { pages, events, campaigns, home, staff, news };
+export const collections = { pages, events, campaigns, programs, home, staff, news };

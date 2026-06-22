@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { withBase } from '../../utils/url';
+
+const programs = (await getCollection('programs', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+})).sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+---
+
+<BaseLayout
+  title="Programs"
+  description="Explore Habitat for Humanity of Central Lane programs for homeownership, home repair, and accessibility."
+>
+  <section class="section programs-hero">
+    <div class="container programs-hero-inner">
+      <p class="eyebrow">Programs</p>
+      <h1>Build, repair, and preserve safe homes in Central Lane.</h1>
+      <p class="programs-intro prose">
+        Habitat programs connect neighbors with affordable homeownership,
+        practical repairs, and accessibility improvements.
+      </p>
+    </div>
+  </section>
+
+  <section class="section programs-list-section" aria-labelledby="programs-list-heading">
+    <div class="container">
+      <h2 id="programs-list-heading">Current Programs</h2>
+      <div class="programs-grid">
+        {
+          programs.map((program) => (
+            <article class="program-card">
+              {program.data.image && (
+                <img
+                  src={withBase(program.data.image)}
+                  alt=""
+                  class="program-card-image"
+                  loading="lazy"
+                />
+              )}
+              <div class="program-card-body">
+                <h3>{program.data.title}</h3>
+                <p>{program.data.summary}</p>
+                <Button href={`/programs/${program.data.slug}/`} variant="outline">
+                  View program
+                </Button>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .programs-hero {
+    background: var(--color-bg-subtle);
+  }
+
+  .programs-hero-inner {
+    max-width: 820px;
+  }
+
+  .programs-hero h1 {
+    max-width: 780px;
+  }
+
+  .programs-intro {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .programs-list-section {
+    padding-top: var(--space-7);
+  }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  .program-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .program-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .program-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-5);
+  }
+
+  .program-card-body h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .program-card-body p {
+    flex: 1;
+    color: var(--color-text-muted);
+  }
+</style>
