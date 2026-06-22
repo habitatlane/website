@@ -7,6 +7,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
+import { withBase } from '../../utils/url';
 import Button from '../Button.astro';
 
 interface Props {
@@ -27,16 +28,23 @@ const pct =
     : null;
 const money = (n: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+const imageSrc = data?.image ? withBase(data.image) : null;
+const imageAlt = data?.imageAlt ?? data?.title ?? '';
 ---
 
 {
   campaign && data && (
     <section class="section campaign" aria-labelledby="campaign-heading">
       <div class="container campaign-inner">
-        <div class="campaign-media" role="img" aria-label={data.imageAlt ?? `${data.title} campaign image placeholder`}>
-          {/* TODO: render data.image with <Image> once campaign images are uploaded via /admin. */}
-          <span class="campaign-media__label">Campaign image</span>
-        </div>
+        {
+          imageSrc ? (
+            <img class="campaign-media campaign-media--image" src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
+          ) : (
+            <div class="campaign-media" role="img" aria-label={`${data.title} campaign image placeholder`}>
+              <span class="campaign-media__label">Campaign image</span>
+            </div>
+          )
+        }
         <div class="campaign-copy">
           <p class="eyebrow">Featured campaign</p>
           <h2 id="campaign-heading">{data.title}</h2>
@@ -83,6 +91,13 @@ const money = (n: number) =>
     display: grid;
     place-items: center;
     color: var(--color-white);
+  }
+  .campaign-media--image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--color-bg);
   }
   .campaign-media__label {
     font-weight: var(--weight-semibold);
