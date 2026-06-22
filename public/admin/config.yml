@@ -26,15 +26,60 @@ collections:
               - label: Hero
                 name: hero
                 widget: object
-                fields: []
+                fields:
+                  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Body, name: body, widget: text, required: false }
+                  - label: Primary CTA
+                    name: primaryCta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string, required: false }
+                      - { label: URL, name: url, widget: string, required: false }
+                      - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
+                  - label: Secondary CTA
+                    name: secondaryCta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string, required: false }
+                      - { label: URL, name: url, widget: string, required: false }
+                      - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
+                  - { label: Service Text, name: serviceText, widget: string, required: false }
+                  - { label: Image, name: image, widget: image, required: false }
+                  - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
               - label: How We Help
                 name: howWeHelp
                 widget: object
-                fields: []
+                fields:
+                  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Card CTA Label, name: cardCtaLabel, widget: string, required: false }
+                  - label: Programs
+                    name: programs
+                    widget: list
+                    required: false
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: Title, name: title, widget: string, required: false }
+                      - { label: Body, name: body, widget: text, required: false }
+                      - { label: URL, name: href, widget: string, required: false }
+                      - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
               - label: Impact Band
                 name: impactBand
                 widget: object
-                fields: []
+                fields:
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - label: Stats
+                    name: stats
+                    widget: list
+                    required: false
+                    summary: "{{fields.value}} {{fields.label}}"
+                    fields:
+                      - { label: Value, name: value, widget: string, required: false }
+                      - { label: Label, name: label, widget: string, required: false }
+                  - { label: Note, name: note, widget: string, required: false }
               - label: Featured Campaign
                 name: featuredCampaign
                 widget: object
@@ -46,7 +91,15 @@ collections:
               - label: Newsletter
                 name: newsletter
                 widget: object
-                fields: []
+                fields:
+                  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Body, name: body, widget: text, required: false }
+                  - { label: Form Action URL, name: formAction, widget: string, required: false }
+                  - { label: Email Label, name: emailLabel, widget: string, required: false }
+                  - { label: Email Placeholder, name: emailPlaceholder, widget: string, required: false }
+                  - { label: Button Label, name: buttonLabel, widget: string, required: false }
+                  - { label: Note, name: note, widget: string, required: false }
 
   - name: pages
     label: Pages

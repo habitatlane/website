@@ -4,32 +4,68 @@
  * TODO: wire `action` to the real provider (Mailchimp/Constant Contact/etc.)
  * endpoint. Until then the form is inert (action="#") and clearly labeled.
  */
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  formAction?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  note?: string;
+}
+
+const textOr = (value: string | undefined, fallback: string) => value?.trim() || fallback;
+const {
+  eyebrow,
+  heading,
+  body,
+  formAction,
+  emailLabel,
+  emailPlaceholder,
+  buttonLabel,
+  note,
+} = Astro.props;
+
+const content = {
+  eyebrow: textOr(eyebrow, 'Stay in the loop'),
+  heading: textOr(heading, 'Get build news, events & ways to help'),
+  body: textOr(
+    body,
+    'A short, occasional email from Habitat for Humanity of Central Lane. No spam, unsubscribe anytime.',
+  ),
+  formAction: textOr(formAction, '#'),
+  emailLabel: textOr(emailLabel, 'Email address'),
+  emailPlaceholder: textOr(emailPlaceholder, 'you@example.com'),
+  buttonLabel: textOr(buttonLabel, 'Sign up'),
+  note: textOr(note, 'Placeholder form - newsletter provider not yet connected.'),
+};
 ---
 
 <section class="section newsletter" aria-labelledby="newsletter-heading">
   <div class="container newsletter-inner">
     <div class="newsletter-copy">
-      <p class="eyebrow">Stay in the loop</p>
-      <h2 id="newsletter-heading">Get build news, events &amp; ways to help</h2>
-      <p>A short, occasional email from Habitat for Humanity of Central Lane. No spam, unsubscribe anytime.</p>
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h2 id="newsletter-heading">{content.heading}</h2>
+      <p>{content.body}</p>
     </div>
 
     <!-- TODO: replace action="#" with the real newsletter form endpoint. -->
-    <form class="newsletter-form" action="#" method="post" aria-describedby="newsletter-note">
+    <form class="newsletter-form" action={content.formAction} method="post" aria-describedby="newsletter-note">
       <div class="field">
-        <label for="newsletter-email">Email address</label>
+        <label for="newsletter-email">{content.emailLabel}</label>
         <input
           type="email"
           id="newsletter-email"
           name="email"
-          placeholder="you@example.com"
+          placeholder={content.emailPlaceholder}
           autocomplete="email"
           required
         />
       </div>
-      <button type="submit" class="btn btn--primary btn--md">Sign up</button>
+      <button type="submit" class="btn btn--primary btn--md">{content.buttonLabel}</button>
       <p id="newsletter-note" class="newsletter-note">
-        Placeholder form — newsletter provider not yet connected.
+        {content.note}
       </p>
     </form>
   </div>

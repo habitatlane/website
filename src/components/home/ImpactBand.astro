@@ -5,21 +5,49 @@
  */
 import { site } from '../../data/site';
 
-const stats = [
+interface StatContent {
+  value?: string;
+  label?: string;
+}
+
+interface Props {
+  heading?: string;
+  stats?: StatContent[];
+  note?: string;
+}
+
+const fallbackStats = [
   { value: `${site.impact.homesBuilt}+`, label: 'homes built' },
   { value: `${site.impact.repairs}+`, label: 'home repairs completed' },
   { value: `${new Date().getFullYear() - site.impact.sinceYear}`, label: 'years serving Lane County' },
 ];
+const textOr = (value: string | undefined, fallback: string) => value?.trim() || fallback;
+const withFallbackStat = (stat: StatContent, index: number) => {
+  const fallback = fallbackStats[index] ?? fallbackStats[0];
+
+  return {
+    value: textOr(stat.value, fallback.value),
+    label: textOr(stat.label, fallback.label),
+  };
+};
+
+const { heading, stats: cmsStats = [], note } = Astro.props;
+
+const content = {
+  heading: textOr(heading, `Our impact since ${site.impact.sinceYear}`),
+  stats: cmsStats.length ? cmsStats.map(withFallbackStat) : fallbackStats,
+  note: textOr(note, 'Figures are approximate and being verified.'),
+};
 ---
 
 <section class="impact" aria-labelledby="impact-heading">
   <div class="container">
     <h2 id="impact-heading" class="impact-heading">
-      Our impact since {site.impact.sinceYear}
+      {content.heading}
     </h2>
     <dl class="impact-grid">
       {
-        stats.map((s) => (
+        content.stats.map((s) => (
           <div class="impact-item">
             <dt class="impact-value">{s.value}</dt>
             <dd class="impact-label">{s.label}</dd>
@@ -28,8 +56,7 @@ const stats = [
       }
     </dl>
     <p class="impact-note">
-      <!-- TODO(verify): confirm impact figures with the affiliate. -->
-      Figures are approximate and being verified.
+      {content.note}
     </p>
   </div>
 </section>
