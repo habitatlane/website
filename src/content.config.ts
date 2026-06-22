@@ -54,6 +54,11 @@ const cta = z.object({
   external: z.boolean().default(false),
 });
 
+const imageFields = {
+  image: z.string().optional(),
+  imageAlt: z.string().optional(),
+};
+
 const heroSection = z.object({
   type: z.literal('hero'),
   eyebrow: z.string().optional(),
@@ -62,25 +67,24 @@ const heroSection = z.object({
   primaryCta: cta.optional(),
   secondaryCta: cta.optional(),
   serviceText: z.string().optional(),
-  image: z.string().optional(),
-  imageAlt: z.string().optional(),
+  ...imageFields,
 });
 
-const howWeHelpSection = z.object({
-  type: z.literal('howWeHelp'),
+const proseSection = z.object({
+  type: z.literal('prose'),
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
-  cardCtaLabel: z.string().optional(),
-  programs: z
-    .array(
-      z.object({
-        title: z.string().optional(),
-        body: z.string().optional(),
-        href: z.string().optional(),
-        external: z.boolean().default(false),
-      }),
-    )
-    .default([]),
+  body: z.string().default(''),
+});
+
+const splitContentSection = z.object({
+  type: z.literal('splitContent'),
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  body: z.string().default(''),
+  cta: cta.optional(),
+  imagePosition: z.enum(['left', 'right']).default('right'),
+  ...imageFields,
 });
 
 const impactBandSection = z.object({
@@ -123,7 +127,9 @@ const programs = defineCollection({
 
 const homeSection = z.discriminatedUnion('type', [
   heroSection,
-  howWeHelpSection,
+  proseSection,
+  splitContentSection,
+  z.object({ type: z.literal('howWeHelp') }),
   impactBandSection,
   z.object({ type: z.literal('featuredCampaign') }),
   z.object({ type: z.literal('eventsStrip') }),
