@@ -7,29 +7,85 @@
  */
 import Button from '../Button.astro';
 import { site } from '../../data/site';
+import { withBase } from '../../utils/url';
+
+interface CtaContent {
+  label?: string;
+  url?: string;
+  external?: boolean;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  primaryCta?: CtaContent;
+  secondaryCta?: CtaContent;
+  serviceText?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const textOr = (value: string | undefined, fallback: string) => value?.trim() || fallback;
+const ctaOr = (cta: CtaContent | undefined, fallback: Required<CtaContent>) => ({
+  label: textOr(cta?.label, fallback.label),
+  url: textOr(cta?.url, fallback.url),
+  external: cta?.external ?? fallback.external,
+});
+
+const {
+  eyebrow,
+  heading,
+  body,
+  primaryCta,
+  secondaryCta,
+  serviceText,
+  image,
+  imageAlt,
+} = Astro.props;
+
+const content = {
+  eyebrow: textOr(eyebrow, 'Habitat for Humanity of Central Lane'),
+  heading: textOr(heading, 'Everyone deserves a safe, affordable place to call home.'),
+  body: textOr(body, site.mission),
+  primaryCta: ctaOr(primaryCta, { label: 'Donate', url: '/give/donate/', external: false }),
+  secondaryCta: ctaOr(secondaryCta, {
+    label: 'Volunteer',
+    url: '/get-involved/volunteer/',
+    external: false,
+  }),
+  serviceText: textOr(serviceText, `Serving ${site.serviceArea}`),
+  image: image?.trim() ? withBase(image.trim()) : undefined,
+  imageAlt: textOr(imageAlt, 'Habitat for Humanity of Central Lane build-site photo'),
+};
 ---
 
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow">Habitat for Humanity of Central Lane</p>
-      <h1>Everyone deserves a&nbsp;safe, affordable place to call home.</h1>
-      <p class="hero-mission">{site.mission}</p>
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h1>{content.heading}</h1>
+      <p class="hero-mission">{content.body}</p>
       <div class="hero-ctas">
-        <Button href="/give/donate/" variant="primary" size="lg">Donate</Button>
-        <Button href="/get-involved/volunteer/" variant="secondary" size="lg">Volunteer</Button>
+        <Button href={content.primaryCta.url} external={content.primaryCta.external} variant="primary" size="lg">
+          {content.primaryCta.label}
+        </Button>
+        <Button href={content.secondaryCta.url} external={content.secondaryCta.external} variant="secondary" size="lg">
+          {content.secondaryCta.label}
+        </Button>
       </div>
-      <p class="hero-service">Serving {site.serviceArea}</p>
+      <p class="hero-service">{content.serviceText}</p>
     </div>
 
-    <!--
-      PHOTO PLACEHOLDER — TODO: replace this block with a real, optimized
-      photo of a Central Lane build/family using <Image>, with descriptive
-      alt text (e.g. "Volunteers and a partner family framing a new home").
-    -->
-    <div class="hero-photo" role="img" aria-label="Placeholder for a Habitat build-site photo">
-      <span class="hero-photo__label">Photo placeholder</span>
-    </div>
+    {
+      content.image ? (
+        <img class="hero-photo hero-photo--image" src={content.image} alt={content.imageAlt} loading="eager" decoding="async" />
+      ) : (
+        <div class="hero-photo" role="img" aria-label="Placeholder for a Habitat build-site photo">
+          <span class="hero-photo__label">Photo placeholder</span>
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -81,6 +137,13 @@ import { site } from '../../data/site';
     border: 2px dashed var(--color-border);
     display: grid;
     place-items: center;
+  }
+  .hero-photo--image {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+    display: block;
   }
   .hero-photo__label {
     font-size: var(--font-size-sm);

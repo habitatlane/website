@@ -7,13 +7,7 @@ import FeaturedCampaign from './home/FeaturedCampaign.astro';
 import EventsStrip from './home/EventsStrip.astro';
 import Newsletter from './home/Newsletter.astro';
 
-type HomeSection =
-  | { type: 'hero' }
-  | { type: 'howWeHelp' }
-  | { type: 'impactBand' }
-  | { type: 'featuredCampaign' }
-  | { type: 'eventsStrip' }
-  | { type: 'newsletter' };
+type HomeSection = CollectionEntry<'home'>['data']['sections'][number];
 
 interface Props {
   sections: readonly HomeSection[];
@@ -27,12 +21,12 @@ const { sections, featuredCampaign, events } = Astro.props;
 {
   sections.map((section) => (
     <>
-      {section.type === 'hero' && <Hero />}
-      {section.type === 'howWeHelp' && <HowWeHelp />}
-      {section.type === 'impactBand' && <ImpactBand />}
+      {section.type === 'hero' && <Hero {...section} />}
+      {section.type === 'howWeHelp' && <HowWeHelp {...section} />}
+      {section.type === 'impactBand' && <ImpactBand {...section} />}
       {section.type === 'featuredCampaign' && <FeaturedCampaign campaign={featuredCampaign} />}
       {section.type === 'eventsStrip' && <EventsStrip events={events} />}
-      {section.type === 'newsletter' && <Newsletter />}
+      {section.type === 'newsletter' && <Newsletter {...section} />}
     </>
   ))
 }
