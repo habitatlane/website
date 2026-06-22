@@ -65,7 +65,7 @@ const staff = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
-    email: z.string().optional(),
+    email: z.string().email().optional(),
     group: z.enum(['staff', 'board']).default('staff'),
     photo: z.string().optional(),
     order: z.number().default(99),
