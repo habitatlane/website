@@ -9,6 +9,45 @@ public_folder: /uploads
 publish_mode: editorial_workflow
 
 collections:
+  - name: home
+    label: Home Page
+    files:
+      - label: Home Page
+        name: home
+        file: src/content/home/index.md
+        fields:
+          - { label: Title, name: title, widget: string, default: Home }
+          - label: Sections
+            name: sections
+            widget: list
+            typeKey: type
+            summary: "{{type}}"
+            types:
+              - label: Hero
+                name: hero
+                widget: object
+                fields: []
+              - label: How We Help
+                name: howWeHelp
+                widget: object
+                fields: []
+              - label: Impact Band
+                name: impactBand
+                widget: object
+                fields: []
+              - label: Featured Campaign
+                name: featuredCampaign
+                widget: object
+                fields: []
+              - label: Events Strip
+                name: eventsStrip
+                widget: object
+                fields: []
+              - label: Newsletter
+                name: newsletter
+                widget: object
+                fields: []
+
   - name: pages
     label: Pages
     folder: src/content/pages

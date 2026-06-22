@@ -1,12 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/home/Hero.astro';
-import HowWeHelp from '../components/home/HowWeHelp.astro';
-import ImpactBand from '../components/home/ImpactBand.astro';
-import FeaturedCampaign from '../components/home/FeaturedCampaign.astro';
-import EventsStrip from '../components/home/EventsStrip.astro';
-import Newsletter from '../components/home/Newsletter.astro';
+import HomeSections from '../components/HomeSections.astro';
+
+const defaultSections = [
+  { type: 'hero' },
+  { type: 'howWeHelp' },
+  { type: 'impactBand' },
+  { type: 'featuredCampaign' },
+  { type: 'eventsStrip' },
+  { type: 'newsletter' },
+] as const;
 
 // --- CMS-driven content ---
 // Featured campaign: the first non-draft entry flagged `featured`.
@@ -19,16 +23,15 @@ const events = (await getCollection('events', (e) => !e.data.draft))
   .filter((e) => (e.data.end ?? e.data.start) >= now)
   .sort((a, b) => a.data.start.getTime() - b.data.start.getTime())
   .slice(0, 3);
+
+const homeEntries = await getCollection('home');
+const home = homeEntries.find((entry) => entry.id === 'index') ?? homeEntries[0];
+const sections = home?.data.sections.length ? home.data.sections : defaultSections;
 ---
 
 <BaseLayout
   title="Home"
   description="Habitat for Humanity of Central Lane brings people together to build homes, community, and hope across Lane County, Oregon."
 >
-  <Hero />
-  <HowWeHelp />
-  <ImpactBand />
-  <FeaturedCampaign campaign={featuredCampaign} />
-  <EventsStrip events={events} />
-  <Newsletter />
+  <HomeSections sections={sections} featuredCampaign={featuredCampaign} events={events} />
 </BaseLayout>
