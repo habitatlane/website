@@ -26,7 +26,7 @@ export const mainNav: NavGroup[] = [
     label: 'About',
     href: '/about/',
     children: [
-      { label: 'Our Story', href: '/about/', comingSoon: true },
+      { label: 'Our Story', href: '/about/' },
       { label: 'Staff & Board', href: '/about/staff-board/', comingSoon: true },
       { label: 'Financials', href: '/about/financials/', comingSoon: true },
       { label: 'News', href: '/news/', comingSoon: true },
