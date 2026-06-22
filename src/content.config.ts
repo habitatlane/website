@@ -48,13 +48,74 @@ const campaigns = defineCollection({
   }),
 });
 
+const cta = z.object({
+  label: z.string().optional(),
+  url: z.string().optional(),
+  external: z.boolean().default(false),
+});
+
+const heroSection = z.object({
+  type: z.literal('hero'),
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  body: z.string().optional(),
+  primaryCta: cta.optional(),
+  secondaryCta: cta.optional(),
+  serviceText: z.string().optional(),
+  image: z.string().optional(),
+  imageAlt: z.string().optional(),
+});
+
+const howWeHelpSection = z.object({
+  type: z.literal('howWeHelp'),
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  cardCtaLabel: z.string().optional(),
+  programs: z
+    .array(
+      z.object({
+        title: z.string().optional(),
+        body: z.string().optional(),
+        href: z.string().optional(),
+        external: z.boolean().default(false),
+      }),
+    )
+    .default([]),
+});
+
+const impactBandSection = z.object({
+  type: z.literal('impactBand'),
+  heading: z.string().optional(),
+  stats: z
+    .array(
+      z.object({
+        value: z.string().optional(),
+        label: z.string().optional(),
+      }),
+    )
+    .default([]),
+  note: z.string().optional(),
+});
+
+const newsletterSection = z.object({
+  type: z.literal('newsletter'),
+  eyebrow: z.string().optional(),
+  heading: z.string().optional(),
+  body: z.string().optional(),
+  formAction: z.string().optional(),
+  emailLabel: z.string().optional(),
+  emailPlaceholder: z.string().optional(),
+  buttonLabel: z.string().optional(),
+  note: z.string().optional(),
+});
+
 const homeSection = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('hero') }),
-  z.object({ type: z.literal('howWeHelp') }),
-  z.object({ type: z.literal('impactBand') }),
+  heroSection,
+  howWeHelpSection,
+  impactBandSection,
   z.object({ type: z.literal('featuredCampaign') }),
   z.object({ type: z.literal('eventsStrip') }),
-  z.object({ type: z.literal('newsletter') }),
+  newsletterSection,
 ]);
 
 const home = defineCollection({

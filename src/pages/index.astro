@@ -1,16 +1,18 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeSections from '../components/HomeSections.astro';
 
+type HomeSection = CollectionEntry<'home'>['data']['sections'][number];
+
 const defaultSections = [
   { type: 'hero' },
-  { type: 'howWeHelp' },
-  { type: 'impactBand' },
+  { type: 'howWeHelp', programs: [] },
+  { type: 'impactBand', stats: [] },
   { type: 'featuredCampaign' },
   { type: 'eventsStrip' },
   { type: 'newsletter' },
-] as const;
+] satisfies HomeSection[];
 
 // --- CMS-driven content ---
 // Featured campaign: the first non-draft entry flagged `featured`.
