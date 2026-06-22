@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import ProseSection from '../components/home/ProseSection.astro';
+import SplitContent from '../components/home/SplitContent.astro';
 import HowWeHelp from '../components/home/HowWeHelp.astro';
 import ImpactBand from '../components/home/ImpactBand.astro';
 import CtaBand from '../components/home/CtaBand.astro';
@@ -31,7 +32,18 @@ const events = (await getCollection('events', (e) => !e.data.draft))
   <ProseSection
     eyebrow="Our mission"
     heading="Building homes, community, and hope across Lane County"
-    body="Habitat for Humanity of Central Lane brings people together to build, repair, and advocate for affordable homes. We work alongside neighbors, volunteers, donors, and community partners because stable housing changes what is possible for families."
+    body="We build and repair homes in partnership with people and communities in need of a decent, affordable place to live. Every project depends on neighbors, volunteers, donors, and local partners working together."
+  />
+  <SplitContent
+    eyebrow="Why it matters"
+    heading="Stable housing changes what is possible"
+    body={`Affordable homeownership and critical repairs help families stay rooted in the communities they love.
+
+Habitat homeowners help build their homes alongside volunteers and pay an affordable mortgage. Repair partners get practical support that helps them stay safe at home.`}
+    cta={{ label: 'Learn about programs', url: '/programs/', external: false }}
+    imagePosition="right"
+    image=""
+    imageAlt="Placeholder for a Habitat homeowner or volunteer photo"
   />
   <HowWeHelp />
   <ImpactBand stats={[]} />
