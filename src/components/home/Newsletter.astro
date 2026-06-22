@@ -1,16 +1,17 @@
 ---
 /**
- * Newsletter — signup placeholder.
- * TODO: wire `action` to the real provider (Mailchimp/Constant Contact/etc.)
- * endpoint. Until then the form is inert (action="#") and clearly labeled.
+ * Newsletter — Constant Contact signup.
  */
 import { renderMarkdown } from '../../utils/markdown';
+
+const LEGACY_CONSTANT_CONTACT_FORM_ID = '82';
+// Paste Constant Contact's full Universal Code plus Inline Code for form 82 here.
+const CONSTANT_CONTACT_SIGNUP_EMBED_CODE = '';
 
 interface Props {
   eyebrow?: string;
   heading?: string;
   body?: string;
-  formAction?: string;
   emailLabel?: string;
   emailPlaceholder?: string;
   buttonLabel?: string;
@@ -22,7 +23,6 @@ const {
   eyebrow,
   heading,
   body,
-  formAction,
   emailLabel,
   emailPlaceholder,
   buttonLabel,
@@ -36,14 +36,14 @@ const content = {
     body,
     'A short, occasional email from Habitat for Humanity of Central Lane. No spam, unsubscribe anytime.',
   ),
-  formAction: textOr(formAction, '#'),
   emailLabel: textOr(emailLabel, 'Email address'),
   emailPlaceholder: textOr(emailPlaceholder, 'you@example.com'),
   buttonLabel: textOr(buttonLabel, 'Sign up'),
-  note: textOr(note, 'Placeholder form - newsletter provider not yet connected.'),
+  note: textOr(note, 'Newsletter signup is temporarily unavailable. Please check back soon.'),
 };
 
 const bodyHtml = await renderMarkdown(content.body);
+const constantContactEmbed = CONSTANT_CONTACT_SIGNUP_EMBED_CODE.trim();
 ---
 
 <section class="section newsletter" aria-labelledby="newsletter-heading">
@@ -54,24 +54,34 @@ const bodyHtml = await renderMarkdown(content.body);
       <div class="prose newsletter-body" set:html={bodyHtml} />
     </div>
 
-    <!-- TODO: replace action="#" with the real newsletter form endpoint. -->
-    <form class="newsletter-form" action={content.formAction} method="post" aria-describedby="newsletter-note">
-      <div class="field">
-        <label for="newsletter-email">{content.emailLabel}</label>
-        <input
-          type="email"
-          id="newsletter-email"
-          name="email"
-          placeholder={content.emailPlaceholder}
-          autocomplete="email"
-          required
+    {
+      constantContactEmbed ? (
+        <div
+          class="newsletter-form newsletter-form--constant-contact"
+          data-legacy-form-id={LEGACY_CONSTANT_CONTACT_FORM_ID}
+          set:html={constantContactEmbed}
         />
-      </div>
-      <button type="submit" class="btn btn--primary btn--md">{content.buttonLabel}</button>
-      <p id="newsletter-note" class="newsletter-note">
-        {content.note}
-      </p>
-    </form>
+      ) : (
+        <form class="newsletter-form" aria-describedby="newsletter-note">
+          <div class="field">
+            <label for="newsletter-email">{content.emailLabel}</label>
+            <input
+              type="email"
+              id="newsletter-email"
+              name="email"
+              placeholder={content.emailPlaceholder}
+              autocomplete="email"
+              required
+              disabled
+            />
+          </div>
+          <button type="submit" class="btn btn--primary btn--md" disabled>{content.buttonLabel}</button>
+          <p id="newsletter-note" class="newsletter-note">
+            {content.note}
+          </p>
+        </form>
+      )
+    }
   </div>
 </section>
 
@@ -89,6 +99,11 @@ const bodyHtml = await renderMarkdown(content.body);
     display: grid;
     gap: var(--space-3);
   }
+  .newsletter-form--constant-contact :global(form),
+  .newsletter-form--constant-contact :global(.ctct-form) {
+    display: grid;
+    gap: var(--space-3);
+  }
   .newsletter-body :global(p:last-child) {
     margin-bottom: 0;
   }
@@ -101,6 +116,18 @@ const bodyHtml = await renderMarkdown(content.body);
     font-size: var(--font-size-sm);
   }
   .field input {
+    font: inherit;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+  }
+  .newsletter-form--constant-contact :global(label) {
+    font-weight: var(--weight-semibold);
+    font-size: var(--font-size-sm);
+  }
+  .newsletter-form--constant-contact :global(input[type='email']) {
+    width: 100%;
     font: inherit;
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
@@ -125,6 +152,25 @@ const bodyHtml = await renderMarkdown(content.body);
     color: var(--color-white);
   }
   .btn--primary:hover {
+    background: var(--color-action-hover);
+  }
+  .newsletter-form--constant-contact :global(button),
+  .newsletter-form--constant-contact :global(input[type='submit']) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-semibold);
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    padding: 0.7rem 1.4rem;
+    background: var(--color-action);
+    color: var(--color-white);
+  }
+  .newsletter-form--constant-contact :global(button:hover),
+  .newsletter-form--constant-contact :global(input[type='submit']:hover) {
     background: var(--color-action-hover);
   }
   .newsletter-note {
