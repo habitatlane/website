@@ -1,0 +1,110 @@
+---
+import Button from '../Button.astro';
+import { renderMarkdown } from '../../utils/markdown';
+import { withBase } from '../../utils/url';
+
+interface CtaContent {
+  label?: string;
+  url?: string;
+  external?: boolean;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  cta?: CtaContent;
+  image?: string;
+  imageAlt?: string;
+  imagePosition?: 'left' | 'right';
+}
+
+const textOr = (value: string | undefined, fallback = '') => value?.trim() || fallback;
+const { eyebrow, heading, body = '', cta, image, imageAlt, imagePosition = 'right' } = Astro.props;
+const html = await renderMarkdown(body);
+const ctaLabel = textOr(cta?.label);
+const ctaUrl = textOr(cta?.url);
+const imageSrc = image?.trim() ? withBase(image.trim()) : '';
+---
+
+<section class:list={[
+  'section',
+  'split-content',
+  {
+    'split-content--has-image': imageSrc,
+    'split-content--image-left': imageSrc && imagePosition === 'left',
+  },
+]}>
+  <div class="container split-content-inner">
+    <div class="split-copy">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      {heading && <h2>{heading}</h2>}
+      {html && <div class="prose split-body" set:html={html} />}
+      {
+        ctaLabel && ctaUrl && (
+          <Button href={ctaUrl} external={cta?.external ?? false} variant="primary">
+            {ctaLabel}
+          </Button>
+        )
+      }
+    </div>
+    {
+      imageSrc && (
+        <img
+          class="split-image"
+          src={imageSrc}
+          alt={textOr(imageAlt, '')}
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .split-content {
+    background: var(--color-bg-subtle);
+  }
+  .split-content-inner {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+    max-width: 780px;
+  }
+  .split-content--has-image .split-content-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+    max-width: var(--container-max);
+  }
+  .split-content--image-left .split-copy {
+    order: 2;
+  }
+  .split-copy {
+    display: grid;
+    justify-items: start;
+  }
+  .split-body {
+    margin-bottom: var(--space-2);
+  }
+  .split-body :global(p:last-child),
+  .split-body :global(ul:last-child),
+  .split-body :global(ol:last-child) {
+    margin-bottom: 0;
+  }
+  .split-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (max-width: 820px) {
+    .split-content-inner {
+      grid-template-columns: 1fr;
+    }
+    .split-content--image-left .split-copy {
+      order: 0;
+    }
+  }
+</style>
