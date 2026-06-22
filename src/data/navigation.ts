@@ -22,6 +22,7 @@ export interface NavGroup {
 
 export const mainNav: NavGroup[] = [
   { label: 'Home', href: '/' },
+  { label: 'Programs', href: '/programs/' },
   {
     label: 'About',
     href: '/about/',
