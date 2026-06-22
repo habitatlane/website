@@ -1,0 +1,184 @@
+---
+import { getCollection, render, type CollectionEntry, type RenderResult } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../utils/url';
+
+type StaffEntry = CollectionEntry<'staff'>;
+type StaffWithContent = StaffEntry & { Content: RenderResult['Content'] };
+
+const staffEntries = (await Promise.all(
+  (await getCollection('staff', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  }))
+    .sort((a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name))
+    .map(async (person) => {
+      const { Content } = await render(person);
+      return { ...person, Content };
+    }),
+)) as StaffWithContent[];
+
+const groups = [
+  { id: 'staff', heading: 'Staff', people: staffEntries.filter((person) => person.data.group === 'staff') },
+  { id: 'board', heading: 'Board', people: staffEntries.filter((person) => person.data.group === 'board') },
+];
+---
+
+<BaseLayout
+  title="Staff & Board"
+  description="Meet the staff and board members who guide Habitat for Humanity of Central Lane."
+>
+  <section class="section staff-hero">
+    <div class="container staff-hero-inner">
+      <p class="eyebrow">Staff &amp; Board</p>
+      <h1>The people guiding Habitat for Humanity of Central Lane.</h1>
+      <!-- Follow-up: move this intro into CMS-managed content when editors need control. -->
+      <p class="staff-intro prose">
+        Habitat for Humanity of Central Lane is led by a dedicated staff team
+        and volunteer board committed to building homes, community, and hope
+        across Lane County.
+      </p>
+    </div>
+  </section>
+
+  <section class="section people-section" aria-labelledby="people-heading">
+    <div class="container">
+      <h2 id="people-heading">Our Team</h2>
+      {
+        staffEntries.length === 0 ? (
+          <p class="people-empty">Staff and board profiles are coming soon.</p>
+        ) : (
+          groups.map((group) => (
+            group.people.length > 0 && (
+              <section class="people-group" aria-labelledby={`${group.id}-heading`}>
+                <h3 id={`${group.id}-heading`}>{group.heading}</h3>
+                <div class="people-grid">
+                  {group.people.map((person) => (
+                    <article class="person-card">
+                      {person.data.photo ? (
+                        <img
+                          src={withBase(person.data.photo)}
+                          alt=""
+                          class="person-photo"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div class="person-photo person-photo-placeholder" aria-hidden="true">
+                          {person.data.name
+                            .split(' ')
+                            .map((part) => part[0])
+                            .join('')
+                            .slice(0, 2)}
+                        </div>
+                      )}
+                      <div class="person-body">
+                        <h4>{person.data.name}</h4>
+                        <p class="person-role">{person.data.role}</p>
+                        <div class="person-bio prose">
+                          <person.Content />
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )
+          ))
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .staff-hero {
+    background: var(--color-bg-subtle);
+  }
+
+  .staff-hero-inner {
+    max-width: 860px;
+  }
+
+  .staff-intro {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-relaxed);
+    margin-bottom: 0;
+  }
+
+  .people-section {
+    padding-top: var(--space-7);
+  }
+
+  .people-group {
+    margin-top: var(--space-6);
+  }
+
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+  }
+
+  .person-card {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .person-photo {
+    width: 112px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .person-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-subtle);
+    color: var(--color-brand);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--weight-bold);
+  }
+
+  .person-body h4 {
+    margin-bottom: var(--space-1);
+    font-size: var(--font-size-lg);
+  }
+
+  .person-role {
+    margin-bottom: var(--space-3);
+    color: var(--color-brand-accent);
+    font-weight: var(--weight-semibold);
+  }
+
+  .person-bio {
+    color: var(--color-text-muted);
+  }
+
+  .person-bio :global(p),
+  .person-bio :global(li) {
+    font-size: var(--font-size-base);
+  }
+
+  .person-bio :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .people-empty {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 560px) {
+    .person-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
