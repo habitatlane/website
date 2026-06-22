@@ -16,23 +16,14 @@ sections:
     serviceText: Serving Coburg to Cottage Grove, Blue River to Noti.
     image: ''
     imageAlt: Placeholder for a Habitat build-site photo
+  - type: prose
+    eyebrow: Our mission
+    heading: Building homes, community, and hope across Lane County
+    body: >-
+      We build and repair homes in partnership with people and communities in
+      need of a decent, affordable place to live. Every project depends on
+      neighbors, volunteers, donors, and local partners working together.
   - type: howWeHelp
-    eyebrow: How we help
-    heading: Three ways we build community
-    cardCtaLabel: Learn more
-    programs:
-      - title: Homeownership
-        href: /get-help/homeownership/
-        external: false
-        body: We partner with families to build and buy affordable homes through sweat equity and an affordable mortgage.
-      - title: Minor Home Repair
-        href: /get-help/minor-home-repair/
-        external: false
-        body: Critical repairs and accessibility improvements help neighbors stay safe in the homes they already own.
-      - title: ReStore
-        href: https://habitatlane.org/restore/
-        external: true
-        body: Shop or donate gently used furniture, appliances, and building materials. Every purchase funds our mission.
   - type: impactBand
     heading: Our impact since 1990
     stats:

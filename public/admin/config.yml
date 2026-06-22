@@ -52,20 +52,38 @@ collections:
               - label: How We Help
                 name: howWeHelp
                 widget: object
+                fields: []
+              - label: Prose Section
+                name: prose
+                widget: object
                 fields:
                   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                   - { label: Heading, name: heading, widget: string, required: false }
-                  - { label: Card CTA Label, name: cardCtaLabel, widget: string, required: false }
-                  - label: Programs
-                    name: programs
-                    widget: list
+                  - { label: Body, name: body, widget: markdown, required: false }
+              - label: Split Content
+                name: splitContent
+                widget: object
+                fields:
+                  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Body, name: body, widget: markdown, required: false }
+                  - label: CTA
+                    name: cta
+                    widget: object
                     required: false
-                    summary: "{{fields.title}}"
                     fields:
-                      - { label: Title, name: title, widget: string, required: false }
-                      - { label: Body, name: body, widget: text, required: false }
-                      - { label: URL, name: href, widget: string, required: false }
+                      - { label: Label, name: label, widget: string, required: false }
+                      - { label: URL, name: url, widget: string, required: false }
                       - { label: Opens in new tab, name: external, widget: boolean, default: false, required: false }
+                  - label: Image Position
+                    name: imagePosition
+                    widget: select
+                    default: right
+                    options:
+                      - { label: Right, value: right }
+                      - { label: Left, value: left }
+                  - { label: Image, name: image, widget: image, required: false }
+                  - { label: Image Alt Text, name: imageAlt, widget: string, required: false }
               - label: Impact Band
                 name: impactBand
                 widget: object
