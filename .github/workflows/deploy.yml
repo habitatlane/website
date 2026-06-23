@@ -36,6 +36,18 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          # The single switch for production cutover: set the repository
+          # variable DEPLOY_TARGET=prod. Unset/anything-else => github.io preview.
+          DEPLOY_TARGET: ${{ vars.DEPLOY_TARGET }}
+          # Public CMS OAuth worker base URL (rotatable; not a real secret —
+          # it is called by the browser and ends up in the static output).
+          CMS_AUTH_BASE_URL: ${{ vars.CMS_AUTH_BASE_URL }}
+          # Optional per-value overrides (normally leave unset; the DEPLOY_TARGET
+          # preset supplies the right values for preview vs prod).
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+          SITE_CNAME: ${{ vars.SITE_CNAME }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
