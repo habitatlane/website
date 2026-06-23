@@ -18,22 +18,7 @@ type RouteProps =
 
 export async function getStaticPaths() {
   const stubs: Stub[] = [
-    { slug: 'about', title: 'Our Story', blurb: 'Habitat for Humanity of Central Lane has been building homes, community, and hope since 1990. A fuller history is on the way.' },
     { slug: 'about/financials', title: 'Financials', blurb: 'Annual reports and financial statements will be posted here.' },
-    { slug: 'contact', title: 'Contact' },
-
-    { slug: 'get-help', title: 'Get Help' },
-    { slug: 'get-help/homeownership', title: 'Homeownership', blurb: 'Learn about partnering with Habitat to build and buy an affordable home through sweat equity and an affordable mortgage.' },
-    { slug: 'get-help/minor-home-repair', title: 'Minor Home Repair', blurb: 'Critical repairs and accessibility improvements that help neighbors stay safe at home.' },
-
-    { slug: 'get-involved', title: 'Get Involved' },
-    { slug: 'get-involved/volunteer', title: 'Volunteer', blurb: 'Build days, committees, and ReStore shifts — there’s a place for everyone.' },
-
-    { slug: 'give', title: 'Give' },
-    { slug: 'give/donate', title: 'Donate', blurb: 'Your gift builds homes and repairs across Lane County. Online giving is coming soon.' },
-    { slug: 'give/ways-to-give', title: 'Ways to Give' },
-    { slug: 'give/cars-for-homes', title: 'Cars for Homes', blurb: 'Donate a vehicle to support Habitat for Humanity of Central Lane.' },
-    { slug: 'give/in-kind', title: 'In-Kind Gifts', blurb: 'Donate materials, services, and goods to support our mission.' },
   ];
 
   const pages = await getCollection('pages', ({ data }) => {

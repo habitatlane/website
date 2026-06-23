@@ -34,9 +34,8 @@ export const site = {
 
   // ReStore (operates as a separate site — link out for now)
   restore: {
-    // TODO(verify): old site showed conflicting 4809 vs 3809 — using 4809.
     phone: '541.344.4809',
-    hours: 'Wed–Sat 11–6, Sun 11–4',
+    hours: 'Wednesday - Saturday 11 AM-6 PM, Sunday 11 AM - 4 PM',
     // TODO(restore): replace with the real ReStore website when available.
     url: 'https://habitatlane.org/restore/',
   },
@@ -51,7 +50,8 @@ export const site = {
   // Social placeholders — TODO: confirm/replace handles.
   social: {
     facebook: 'https://www.facebook.com/HabitatCentralLane',
-    instagram: 'https://www.instagram.com/habitatcentrallane',
+    instagram: 'https://instagram.com/habitatlane',
+    youtube: 'https://www.youtube.com/@habitatcentrallane29',
   },
 } as const;
 
