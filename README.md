@@ -2,6 +2,11 @@
 Habitat for Humanity of Central Lane — main website (Astro + GitHub Pages + Sveltia CMS)
 
 Temporary GitHub Pages preview URL: `https://habitatlane.github.io/website/`.
-At DNS cutover, restore `public/CNAME` with `habitatlane.org`, set
-`astro.config.mjs` back to `site: 'https://habitatlane.org'` and `base: '/'`,
-and update CMS URLs back to the custom domain.
+
+Environment-specific values (site origin, base path, CNAME, CMS OAuth worker
+URL) are build-time config — see `SETUP-CMS.md` ("Build-time configuration").
+
+**Production DNS cutover — the single switch:** set the GitHub Actions
+repository variable `DEPLOY_TARGET=prod`. That flips `site` to
+`https://habitatlane.org`, `base` to `/`, and emits `public/CNAME`
+automatically. No code change required.
