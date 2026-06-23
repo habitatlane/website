@@ -5,11 +5,12 @@
   "private": true,
   "description": "Habitat for Humanity of Central Lane — main website (Astro + GitHub Pages + Sveltia CMS)",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "build:fast": "astro build",
-    "preview": "astro preview",
+    "config": "node scripts/generate-config.mjs",
+    "dev": "node scripts/generate-config.mjs && astro dev",
+    "start": "node scripts/generate-config.mjs && astro dev",
+    "build": "node scripts/generate-config.mjs && astro check && astro build",
+    "build:fast": "node scripts/generate-config.mjs && astro build",
+    "preview": "node scripts/generate-config.mjs && astro preview",
     "check": "astro check",
     "astro": "astro"
   },

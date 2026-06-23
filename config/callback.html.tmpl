@@ -10,8 +10,7 @@
     <p>Completing CMS sign-in...</p>
     <script>
       (() => {
-        const authCallbackURL =
-          'https://habitatlane-cms-auth.example.workers.dev/callback';
+        const authCallbackURL = '${CMS_AUTH_BASE_URL}/callback';
         const params = new URLSearchParams(window.location.search);
 
         if (params.has('code') && params.has('state')) {
