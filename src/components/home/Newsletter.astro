@@ -5,73 +5,10 @@
 import { renderMarkdown } from '../../utils/markdown';
 
 const LEGACY_CONSTANT_CONTACT_FORM_ID = '82';
-// Extracted from the live WordPress Constant Contact Forms plugin form for legacy form 82.
-const CONSTANT_CONTACT_SIGNUP_EMBED_CODE = String.raw`
-  <form
-    class="ctct-form ctct-form-82 comment-form has-recaptcha ctct-default"
-    id="ctct-form-newsletter"
-    data-doajax="off"
-    action="https://habitatlane.org/"
-    method="post"
-    aria-describedby="newsletter-consent"
-  >
-    <div class="ctct-form-field ctct-form-field-email ctct-form-field-required">
-      <label for="newsletter-email">Email address <span aria-hidden="true">*</span></label>
-      <input
-        required
-        aria-required="true"
-        type="email"
-        id="newsletter-email"
-        name="email___3c59495a3edf2d27cd20fc1987544522"
-        class="ctct-email ctct-label-top email___3c59495a3edf2d27cd20fc1987544522"
-        autocomplete="email"
-        placeholder="you@example.com"
-      />
-    </div>
-    <div class="ctct-list-selector" hidden>
-      <fieldset>
-        <legend>Select list(s) to subscribe to</legend>
-        <input
-          type="checkbox"
-          name="lists___9a34098b645373cc232115424059e663[]"
-          id="newsletter-list-monthly"
-          value="5d56ae50-3a61-11e7-9e32-d4ae52844279"
-          checked
-        />
-        <label for="newsletter-list-monthly">Newsletter (monthly)</label>
-      </fieldset>
-    </div>
-    <div class="ctct-form-field ctct-form-field-checkbox newsletter-consent">
-      <input type="checkbox" name="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="1" id="newsletter-opt-in" required />
-      <label id="newsletter-consent" for="newsletter-opt-in">
-        Yes, I would like to receive emails from Habitat for Humanity of Central Lane. You can unsubscribe anytime.
-      </label>
-    </div>
-    <div class="g-recaptcha" data-sitekey="6LfQqDssAAAAAK9-Dho5n7lc5dswUWQwulVsGqwJ" data-callback="ctctEnableBtn" data-expired-callback="ctctDisableBtn" data-size="normal"></div>
-    <div class="ctct-form-field ctct-form-field-submit">
-      <input type="submit" id="ctct-submitted-newsletter" name="ctct-submitted" value="Sign up" class="ctct-submit ctct-label-top ctct-submitted" />
-    </div>
-    <div class="ctct_usage">
-      <label for="ctct_usage_field">Constant Contact Use. Please leave this field blank.</label>
-      <input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" autocomplete="off" />
-    </div>
-    <input type="hidden" name="ctct-id" value="82" />
-    <input type="hidden" name="ctct-verify" value="SG0j2ojlYFEK4M07G1gmeBvNd" />
-    <input type="hidden" name="ctct-instance" value="0" />
-    <input type="hidden" name="ctct_time" value="" data-ctct-time />
-    <input type="hidden" name="ctct_must_opt_in" value="yes" />
-  </form>
-  <script>
-    var ajaxurl = "https://habitatlane.org/wp-admin/admin-ajax.php";
-    document.currentScript.previousElementSibling.addEventListener("submit", function () {
-      var timeField = this.querySelector("[data-ctct-time]");
-      if (timeField) timeField.value = Math.floor(Date.now() / 1000).toString();
-    });
-  </script>
-  <script src="https://habitatlane.org/wp-content/plugins/constant-contact-forms/assets/js/ctct-plugin-recaptcha-v2.min.js?ver=2.19.0"></script>
-  <script async defer src="https://www.google.com/recaptcha/api.js?onload=renderReCaptcha&render=explicit"></script>
-  <script src="https://habitatlane.org/wp-content/plugins/constant-contact-forms/assets/js/ctct-plugin-frontend.min.js?ver=2.19.0"></script>
-`;
+// Real fix: paste the Constant Contact dashboard Universal Code + Inline Code here.
+// That embed posts to Constant Contact directly and avoids the old WordPress plugin,
+// domain-locked reCAPTCHA, and cutover-sensitive WordPress endpoint.
+const CONSTANT_CONTACT_SIGNUP_EMBED_CODE = '';
 
 interface Props {
   eyebrow?: string;
@@ -191,9 +128,6 @@ const constantContactEmbed = CONSTANT_CONTACT_SIGNUP_EMBED_CODE.trim();
     font-weight: var(--weight-semibold);
     font-size: var(--font-size-sm);
   }
-  .newsletter-form--constant-contact :global(.ctct-form-field) {
-    margin: 0;
-  }
   .newsletter-form--constant-contact :global(input[type='email']) {
     width: 100%;
     font: inherit;
@@ -201,28 +135,6 @@ const constantContactEmbed = CONSTANT_CONTACT_SIGNUP_EMBED_CODE.trim();
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-white);
-  }
-  .newsletter-form--constant-contact :global(.newsletter-consent) {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--space-2);
-    align-items: start;
-    font-size: var(--font-size-xs);
-    color: var(--color-text-muted);
-  }
-  .newsletter-form--constant-contact :global(.newsletter-consent label) {
-    font-weight: var(--weight-regular);
-    font-size: inherit;
-  }
-  .newsletter-form--constant-contact :global(.ctct_usage) {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
   }
   /* Reuse the shared .btn classes from Button styling. */
   .btn {
