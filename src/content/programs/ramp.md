@@ -1,13 +1,22 @@
 ---
 title: Ramp
 slug: ramp
-summary: Placeholder program information for accessibility ramp work. Details are still being developed.
+summary: A new program building wheelchair ramps and accessibility ramps so community members can enter and leave their homes more safely.
 order: 3
 draft: false
 ---
 
-This program page is a placeholder for Habitat for Humanity of Central Lane's
-ramp-related work.
+Habitat for Humanity of Central Lane is launching a dedicated Ramp program to
+build wheelchair ramps and accessibility ramps for community members who need a
+safer way to enter and leave their homes.
 
-Staff will add final program details, eligibility information, and next steps
-when they are ready to publish.
+The Ramp program is separate from Minor Home Repair. It focuses on ramp projects
+that improve basic home access for people with mobility needs, including older
+adults and people with disabilities.
+
+Because this is a new program, Habitat staff are developing intake, project
+review, and scheduling details as funding and volunteer capacity become
+available.
+
+The Ramp Up Challenge campaign supports this work by raising funds for ramp
+materials and project costs.

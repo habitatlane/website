@@ -40,6 +40,7 @@ const campaigns = defineCollection({
     raisedAmount: z.number().optional(),
     ctaLabel: z.string().default('Donate'),
     ctaUrl: z.string(),
+    program: z.string().optional(),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
     // Exactly one campaign should be featured on the homepage at a time.
@@ -65,6 +66,7 @@ const staff = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
+    email: z.string().email().optional(),
     group: z.enum(['staff', 'board']).default('staff'),
     photo: z.string().optional(),
     order: z.number().default(99),
