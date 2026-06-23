@@ -1,18 +1,19 @@
 ---
 title: Ramp Up 2026
-summary: Help us build wheelchair ramps and make critical accessibility repairs so neighbors can stay safe in the homes they love. Every gift is matched dollar-for-dollar through June.
+summary: Help launch Habitat's new Ramp program by funding wheelchair ramps and accessibility ramps for neighbors who need safer access at home.
 goalAmount: 50000
-raisedAmount: 32500
+raisedAmount: 0
 ctaLabel: Give to Ramp Up
 ctaUrl: /give/donate/
+program: ramp
 imageAlt: A volunteer crew installing a new wooden accessibility ramp at a home.
 featured: true
 draft: false
 ---
 
-This spring, **Ramp Up 2026** is funding accessibility ramps and minor home
-repairs for older adults and people with disabilities across Lane County.
+This spring, **Ramp Up 2026** is raising funds for Habitat for Humanity of
+Central Lane's new Ramp program.
 
-A safe way in and out of the home is the difference between independence and
-isolation. With your support we can keep neighbors in the homes — and the
-community — they love.
+The campaign supports wheelchair ramps and accessibility ramps that help
+neighbors with mobility needs enter and leave their homes more safely. Gifts
+help cover ramp materials and project costs as this new program gets underway.
